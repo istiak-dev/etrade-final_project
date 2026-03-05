@@ -3,6 +3,17 @@
     <div class="card border border-light border-2 rounded-3 mb-4">
         <h4 class="card-header">Product List</h4>
         <div class="table-responsive text-nowrap">
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <table class="table table-responsive table-striped pb-5">
                 <thead class="table-light">
                     <tr>
@@ -31,11 +42,26 @@
                             <td>
                                 <img width="80px" src="{{ getImage($product->image) }}" alt="{{ $product->title }}">
                             </td>
-                            <td>{{ $product->catagory_id }}</td>
+                            <td>{{ $categories->where('id', $product->category_id)->first()->title ?? 'No Category' }}</td>
                             <td>{{ $product->slug }}</td>
                             <td>{{ $product->price }}</td>
                             <td>{{ $product->sale_price }}</td>
                             <td>
+                                <div class="deal-show ">
+                                    @if ($product->deal_date)
+                                        <span class="text-{{}}">{{ date('Y-m-d', strtotime($product->deal_date)) }}</span>
+                                        @if (date('Y-m-d', strtotime($product->deal_date)) > date('Y-m-d'))
+                                            <span class="text-info">(Upcoming)</span>
+                                        @elseif (date('Y-m-d', strtotime($product->deal_date)) == date('Y-m-d'))
+                                            <span class="text-primary">(Running)</span>
+                                        @else
+                                            <span class="text-danger">(Expired)</span>
+                                        @endif
+                                    @else
+                                        <span class="text-muted small">No Deal</span>
+                                    @endif
+
+                                </div>
                                 <div class="d-flex gap-2 align-items-center">
                                     <form action="" class="">
                                         <button class="btn btn-sm btn-secondary">
@@ -43,7 +69,9 @@
                                         </button>
                                     </form>
 
-                                    <a href="#staticBackdrop" class="btn btn-sm btn-primary" data-bs-toggle="modal" >+Set Deal</a>
+                                    <a href="#staticBackdrop{{ $product->id }}" class="btn btn-sm btn-primary"
+                                        data-bs-toggle="modal">+Set
+                                        Deal</a>
                                 </div>
                             </td>
                             <td>{{ $product->sku }}</td>
@@ -68,37 +96,62 @@
                                 </div>
                             </td>
                         </tr>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="staticBackdrop{{ $product->id }}" data-bs-backdrop="static"
+                            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+
+                                    <form action="{{ route('admin.product.updateproduct', $product->id) }}" method="POST">
+                                        @csrf
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Schedule deal</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <label for="dealDate" class="mb-2">Choose Date</label>
+
+                                            <input type="date" name="deal_date" id="dealDate" class="form-control"
+                                                min="{{ date('Y-m-d') }}"
+                                                value="{{ old('id') == $product->id ? old('deal_date') : $product->deal_date }}">
+
+                                            {{-- to find the product from list when modal destroyed after clicking submit or, set button --}}
+                                            <input type="hidden" name="id" value="{{ $product->id }}">
+
+                                            @error('deal_date')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Set</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
                     @endforeach
 
                 </tbody>
             </table>
         </div>
     </div>
-
-
-    {{-- daily deal modal --}}
-    <!-- Button trigger modal -->
-
-    <!-- Modal -->
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Schedule deal</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="">
-                        <label for="dealDate" class="mb-2">Choose Date</label>
-                        <input type="date" name="deal_date" id="dealDate" class="form-control">
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Set</button>
-                </div>
-            </div>
-        </div>
-    </div>
 @endsection
+@push('js')
+    @if ($errors->has('deal_date'))
+        <script>
+            $(function() {
+
+                // daily deal modal show on validation error
+                bootstrap.Modal.getOrCreateInstance('#staticBackdrop{{ old('id') }}').show();
+            })
+        </script>
+    @endif
+@endpush

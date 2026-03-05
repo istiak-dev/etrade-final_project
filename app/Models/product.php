@@ -20,6 +20,8 @@ class product extends Model
         'stock_status',
         'price',
         'sale_price',
+        'deal_date',
+        'deal_status',
         'image',
         'gall_img',
         'published_status',

@@ -26,6 +26,10 @@ return new class extends Migration
             $table->boolean('stock_status')->default(true);
             $table->integer('price');
             $table->integer('sale_price')->nullable();
+            
+            $table->dateTime('deal_date')->nullable();
+            $table->boolean('deal_status')->default(false);
+            
             $table->string('image')->nullable();
             $table->json('gall_img')->nullable();
             $table->string('published_status')->nullable();

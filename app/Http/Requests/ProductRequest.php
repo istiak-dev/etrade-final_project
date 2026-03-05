@@ -21,6 +21,12 @@ class ProductRequest extends FormRequest
      */
     public function rules(): array
     {
+        if ($this->has('deal_date')) {
+            return [
+                'deal_date' => 'nullable|after_or_equal:today',
+                'deal_status' => 'nullable'
+            ];
+        }
         return [
             'title' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:products,slug,',
@@ -30,14 +36,15 @@ class ProductRequest extends FormRequest
             'category_id' => 'required|exists:categories,id',
 
             'brand_name' => 'nullable|string|max:255',
-            'model' => 'nullable|string|max:255|unique:products,model,' ,
-            'sku' => 'nullable|string|max:255|unique:products,sku,' ,
+            'model' => 'nullable|string|max:255|unique:products,model,',
+            'sku' => 'nullable|string|max:255|unique:products,sku,',
 
             'stock' => 'nullable|min:0',
             'minstock' => 'nullable|min:0',
 
             'price' => 'required|numeric|min:0',
             'sale_price' => 'nullable|numeric|min:0',
+
 
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp',
             'gall_img' => 'nullable|image|mimes:jpg,jpeg,png,webp',
