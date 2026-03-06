@@ -113,46 +113,46 @@ class ProductController extends Controller
         }
 
 
-        // // Update Main Image (Only if new image is uploaded)
+        // Update Main Image (Only if new image is uploaded)
 
-        // $productImg = $request->hasFile('image') ? $request->file('image')->store('product', 'public') : $product->image;
-        // if ($request->hasFile('image') && $product->image) {
-        //     if (Storage::disk('public')->exists($product->image)) {
-        //         Storage::disk('public')->delete($product->image);
-        //     }
-        // }
+        $productImg = $request->hasFile('image') ? $request->file('image')->store('product', 'public') : $product->image;
+        if ($request->hasFile('image') && $product->image) {
+            if (Storage::disk('public')->exists($product->image)) {
+                Storage::disk('public')->delete($product->image);
+            }
+        }
 
-        // // Update Gallery Images
-        // $galleryPaths = json_decode($product->gall_img, true) ?? [];
-        // if ($request->hasFile('gall_img')) {
-        //     // Optional: delete old gallery images here if you want to replace them
-        //     foreach ($request->file('gall_img') as $file) {
-        //         $galleryPaths[] = $file->store('galleryimg', 'public');
-        //     }
-        // }
+        // Update Gallery Images
+        $galleryPaths = json_decode($product->gall_img, true) ?? [];
+        if ($request->hasFile('gall_img')) {
+            // Optional: delete old gallery images here if you want to replace them
+            foreach ($request->file('gall_img') as $file) {
+                $galleryPaths[] = $file->store('galleryimg', 'public');
+            }
+        }
 
-        // // Use update() instead of create()
-        // $product->update([
-        //     'title'             => $request->title,
-        //     'slug'              => str($request->title)->slug(),
-        //     'short_description' => $request->short_description,
-        //     'description'       => $request->description,
-        //     'catagory_id'       => $request->catagory_id,
-        //     'category_id'       => $request->category_id,
-        //     'brand_name'        => $request->brand_name,
-        //     'model'             => $request->model,
-        //     'sku'               => $request->sku,
-        //     'stock'             => $request->stock,
-        //     'minstock'          => $request->minstock,
-        //     'stock_status'      => $request->stock_status,
-        //     'price'             => $request->price,
-        //     'sale_price'        => $request->sale_price,
-        //     'image'             => $productImg,
-        //     'gall_img'          => json_encode($galleryPaths),
-        //     'published_status'  => $request->published_status,
-        //     'published_date'    => $request->published_date,
-        // ]);
+        // Use update() instead of create()
+        $product->update([
+            'title'             => $request->title,
+            'slug'              => str($request->title)->slug(),
+            'short_description' => $request->short_description,
+            'description'       => $request->description,
+            'catagory_id'       => $request->catagory_id,
+            'category_id'       => $request->category_id,
+            'brand_name'        => $request->brand_name,
+            'model'             => $request->model,
+            'sku'               => $request->sku,
+            'stock'             => $request->stock,
+            'minstock'          => $request->minstock,
+            'stock_status'      => $request->stock_status,
+            'price'             => $request->price,
+            'sale_price'        => $request->sale_price,
+            'image'             => $productImg,
+            'gall_img'          => json_encode($galleryPaths),
+            'published_status'  => $request->published_status,
+            'published_date'    => $request->published_date,
+        ]);
 
-        // return back()->with('msg', ['type' => 'success', 'content' => 'Product Updated!']);
+        return back()->with('msg', ['type' => 'success', 'content' => 'Product Updated!']);
     }
 }
