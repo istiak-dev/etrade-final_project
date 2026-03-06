@@ -21,10 +21,14 @@
     position: relative;
 
     display: block;
-    overflow: visible;
+    overflow: hidden;
 
     margin: 0;
     padding: 0;
+}
+
+.poster-countdown-wrap .slick-list {
+    overflow: visible;
 }
 
 .slick-list:focus {

@@ -270,6 +270,8 @@
             $('.gallleryImg').on('click', '.badge', function() {
                 $(this).parent().remove();
             })
+            var editor1 = new RichTextEditor("#productDescription");
+            //editor1.setHTMLCode("Use inline HTML or setHTMLCode to init the default content.");
         })
     </script>
 @endpush

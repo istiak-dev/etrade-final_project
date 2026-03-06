@@ -107,97 +107,48 @@
     <div class="axil-poster-countdown">
         <div class="container">
             <div class="poster-countdown-wrap bg-lighter">
+                @foreach ($products as $product)
+                    <div class="row-wrapper">
+                        <div class="row align-items-center">
+                            <div class="col-xl-5 col-lg-6">
+                                <div class="poster-countdown-content">
+                                    <div class="section-title-wrapper">
+                                        <h4 style="color: #ff497c;">
+                                            @if ($product->price < 1000)
+                                                {{-- Show Percentage for cheap items --}}
+                                                {{ round((($product->price - $product->sale_price) / $product->price) * 100) }}%
+                                                OFF!
+                                            @else
+                                                {{-- Show BDT for expensive items --}}
+                                                {{ number_format($product->price - $product->sale_price, 0) }} BDT OFF!
+                                            @endif
+                                            &nbsp;
+                                        <small class="text-muted fs-2"> Don't Miss!!</small>
+                                        </h4>
 
-                <div class="row-wrapper">
-                    <div class="row align-items-center">
-                        <div class="col-xl-5 col-lg-6">
-                            <div class="poster-countdown-content">
-                                <div class="section-title-wrapper">
-                                    <span class="title-highlighter highlighter-secondary"> <i
-                                            class="fal fa-headphones-alt"></i>
-                                        Don’t Miss!!</span>
-                                    <h2 class="title">Enhance Your Music Experience</h2>
+                                        <h2 class="title">{{ $product->title }}</h2>
+                                    </div>
+
+                                    <div class="poster-countdown countdown mb--40"></div>
+
+                                    <a href="index-1.html#" class="axil-btn btn-bg-primary">Check it Out!</a>
                                 </div>
-                                <div class="poster-countdown countdown mb--40"></div>
-                                <a href="index-1.html#" class="axil-btn btn-bg-primary">Check it Out!</a>
                             </div>
-                        </div>
-                        <div class="col-xl-7 col-lg-6">
-                            <div class="poster-countdown-thumbnail d-flex justify-content-center">
-                                <img src="{{ asset('frontend/assets/images/product/poster/poster-03.png') }}"
-                                    alt="Poster Product">
-                                <div class="music-singnal">
-                                    <div class="item-circle circle-1"></div>
-                                    <div class="item-circle circle-2"></div>
-                                    <div class="item-circle circle-3"></div>
-                                    <div class="item-circle circle-4"></div>
-                                    <div class="item-circle circle-5"></div>
+                            <div class="col-xl-7 col-lg-6">
+                                <div class="poster-countdown-thumbnail d-flex justify-content-center">
+                                    <img class="img-fluid" src="{{ getImage($product->image) }}" alt="Poster Product">
+                                    {{-- <div class="music-singnal">
+                                        <div class="item-circle circle-1"></div>
+                                        <div class="item-circle circle-2"></div>
+                                        <div class="item-circle circle-3"></div>
+                                        <div class="item-circle circle-4"></div>
+                                        <div class="item-circle circle-5"></div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="row-wrapper">
-                    <div class="row align-items-center">
-                        <div class="col-xl-5 col-lg-6">
-                            <div class="poster-countdown-content">
-                                <div class="section-title-wrapper">
-                                    <span class="title-highlighter highlighter-secondary"> <i
-                                            class="fal fa-headphones-alt"></i>
-                                        Don’t Miss!!</span>
-                                    <h2 class="title">Enhance </h2>
-                                </div>
-                                <div class="poster-countdown countdown mb--40"></div>
-                                <a href="index-1.html#" class="axil-btn btn-bg-primary">Check it Out!</a>
-                            </div>
-                        </div>
-                        <div class="col-xl-7 col-lg-6">
-                            <div class="poster-countdown-thumbnail d-flex justify-content-center">
-                                <img src="{{ asset('frontend/assets/images/product/poster/poster-03.png') }}"
-                                    alt="Poster Product">
-                                <div class="music-singnal">
-                                    <div class="item-circle circle-1"></div>
-                                    <div class="item-circle circle-2"></div>
-                                    <div class="item-circle circle-3"></div>
-                                    <div class="item-circle circle-4"></div>
-                                    <div class="item-circle circle-5"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row-wrapper">
-                    <div class="row align-items-center">
-                        <div class="col-xl-5 col-lg-6">
-                            <div class="poster-countdown-content">
-                                <div class="section-title-wrapper">
-                                    <span class="title-highlighter highlighter-secondary"> <i
-                                            class="fal fa-headphones-alt"></i>
-                                        Don’t Miss!!</span>
-                                    <h2 class="title">Music Experience</h2>
-                                </div>
-                                <div class="poster-countdown countdown mb--40"></div>
-                                <a href="index-1.html#" class="axil-btn btn-bg-primary">Check it Out!</a>
-                            </div>
-                        </div>
-                        <div class="col-xl-7 col-lg-6">
-                            <div class="poster-countdown-thumbnail d-flex justify-content-center">
-                                <img src="{{ asset('frontend/assets/images/product/poster/poster-03.png') }}"
-                                    alt="Poster Product">
-                                <div class="music-singnal">
-                                    <div class="item-circle circle-1"></div>
-                                    <div class="item-circle circle-2"></div>
-                                    <div class="item-circle circle-3"></div>
-                                    <div class="item-circle circle-4"></div>
-                                    <div class="item-circle circle-5"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                @endforeach
             </div>
         </div>
     </div>
@@ -1333,9 +1284,9 @@
         $(function() {
             // daily deal countdown js
             // start
-            $('.poster-countdown').countdown('2026/01/01');
+            $('.poster-countdown').countdown('{{ date('Y/m/d H:i:s', strtotime($product->deal_date)) }}');
             // end ...
-            $('.poster-countdown').countdown('2026/03/04 16:22:00');
+            $('.poster-countdown').countdown('{{ date('Y/m/d 23:59:59') }}');
             // Pause the countdown
             $('div#clock').countdown('pause');
             // Resume the countdown
@@ -1344,7 +1295,9 @@
             $('.poster-countdown-wrap').slick({
                 fade: true,
                 arrows: false,
-                // autoplay: true,
+                autoplay: true,
+                autoplaySpeed: 3000,
+                adaptiveHeight: true,
             });
         })
     </script>

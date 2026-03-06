@@ -14,8 +14,7 @@ class HomeController extends Controller
         $categories = Category::where('status', true)->take(12)->latest()->get();
 
         // Get Active Products
-        $products = product::where('stock_status', true)->select('id', 'title', 'image', 'slug', 'price', 'sale_price', 'gall_img')->latest()->get();
-        
+        $products = product::where('stock_status', true)->select('id', 'title', 'image', 'slug', 'price', 'sale_price','deal_date', 'deal_status', 'gall_img')->latest()->get();
 
         return view('frontend.index', compact('categories','products'));
     }

@@ -33,6 +33,8 @@
     <!-- Core CSS -->
     
     <link rel="stylesheet" href="{{ asset('backend/assets/vendor/fonts/boxicons.css') }}" />
+    
+    <link rel="stylesheet" href="{{ asset('backend/assets/css/rte_theme_default.css') }}" />
     <link rel="stylesheet" href="{{ asset('backend/assets/vendor/css/core.css') }}" class="template-customizer-core-css" />
     <link rel="stylesheet" href="{{ asset('backend/assets/vendor/css/theme-default.css') }}" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="{{ asset('backend/assets/css/demo.css') }}" />
@@ -250,6 +252,8 @@
     <script src="{{ asset('backend/assets/vendor/js/bootstrap.js') }}"></script>
     <script src="{{ asset('backend/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
     <script src="{{ asset('backend/assets/vendor/js/menu.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/rte.js') }}"></script>
+    <script src="{{ asset('backend/assets/js/all_plugins.js') }}"></script>
     <script src="{{ asset('backend/assets/js/main.js') }}"></script>
     
     

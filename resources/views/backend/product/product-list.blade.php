@@ -47,21 +47,26 @@
                             <td>{{ $product->price }}</td>
                             <td>{{ $product->sale_price }}</td>
                             <td>
-                                <div class="deal-show ">
+                                <div class="deal-show mb-1">
                                     @if ($product->deal_date)
-                                        <span class="text-{{}}">{{ date('Y-m-d', strtotime($product->deal_date)) }}</span>
                                         @if (date('Y-m-d', strtotime($product->deal_date)) > date('Y-m-d'))
-                                            <span class="text-info">(Upcoming)</span>
+                                            <span class="text-info">
+                                                {{ date('Y-m-d', strtotime($product->deal_date)) }} (Upcoming)
+                                            </span>
                                         @elseif (date('Y-m-d', strtotime($product->deal_date)) == date('Y-m-d'))
-                                            <span class="text-primary">(Running)</span>
+                                            <span class="text-primary">
+                                                {{ date('Y-m-d', strtotime($product->deal_date)) }} (Running)
+                                            </span>
                                         @else
-                                            <span class="text-danger">(Expired)</span>
+                                            <span class="text-danger">
+                                                {{ date('Y-m-d', strtotime($product->deal_date)) }} (Expired)
+                                            </span>
                                         @endif
                                     @else
-                                        <span class="text-muted small">No Deal</span>
+                                        <span class="text-muted">No Deal</span>
                                     @endif
-
                                 </div>
+
                                 <div class="d-flex gap-2 align-items-center">
                                     <form action="" class="">
                                         <button class="btn btn-sm btn-secondary">
@@ -148,7 +153,6 @@
     @if ($errors->has('deal_date'))
         <script>
             $(function() {
-
                 // daily deal modal show on validation error
                 bootstrap.Modal.getOrCreateInstance('#staticBackdrop{{ old('id') }}').show();
             })
