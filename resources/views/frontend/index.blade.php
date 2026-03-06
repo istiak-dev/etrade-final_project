@@ -211,9 +211,8 @@
             @foreach($categories as $category)
             <div class="slick-single-layout">
                 <div class="categrie-product" data-sal="zoom-out" data-sal-delay="200" data-sal-duration="500">
-                    <a href="index-1.html#">
-                        <img class="img-fluid" src="{{ getImage($category->icon)}}"
-                            alt="product categorie">
+                    <a href="{{ route('shop') }}?category={{ $category->slug }}" class="categorie-product-link">
+                        <img class="img-fluid" src="{{ getImage($category->icon)}}" alt="product categorie">
                         <h6 class="cat-title">{{ $category->title }}</h6>
                     </a>
                 </div>
@@ -275,21 +274,24 @@
             <div class="slick-single-layout">
                 <div class="row row--15">
                     @foreach($products as $product)
+
                     <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb--30">
                         <div class="axil-product product-style-one">
                             <div class="thumbnail">
-                                <a href="single-product.html">
+                                <a href="{{ route('shop.product', $product->slug) }}">
                                     <img data-sal="zoom-out" data-sal-delay="200" data-sal-duration="800" loading="lazy"
-                                        class="main-img"
-                                        src="{{ getImage($product->image) }}"
-                                        alt="Product Images">
+                                        class="main-img" src="{{ getImage($product->image) }}" alt="{{ $product->title }}">
+                                    @if (count(json_decode($product->gall_img ?? '')) > 0)
                                     <img class="hover-img"
-                                        src="{{ asset('frontend/assets/images/product/electric/product-08.png')}}"
-                                        alt="Product Images">
+                                    src="{{ getImage(json_decode($product->gall_img ?? '')[0]) }}"
+                                    alt="{{ $product->title }}">
+                                    @endif
                                 </a>
+                                @if ($product->sale_price && $product->sale_price > 0)
                                 <div class="label-block label-right">
-                                    <div class="product-badget">20% Off</div>
+                                    <div class="product-badget">{{( ceil(100 - ( $product->sale_price * 100) / $product->price)) }}% Off</div>
                                 </div>
+                                @endif
                                 <div class="product-hover-action">
                                     <ul class="cart-action">
                                         <li class="quickview"><a href="index-1.html#" data-bs-toggle="modal"
@@ -316,14 +318,16 @@
                                         </span>
                                         <span class="rating-number">(64)</span>
                                     </div>
-                                    <h5 class="title"><a href="{{ $product->slug }}">{{ $product->title }}</a>
+                                    <h5 class="title"><a href="{{ route('shop.product', $product->slug) }}">{{ $product->title }}</a>
                                     </h5>
                                     <div class="product-price-variant">
                                         @if ($product->sale_price)
-                                        <span class="price current-price">{{ number_format($product->sale_price,2) }} BDT</span>
+                                        <span class="price current-price">{{ number_format($product->sale_price,2) }}
+                                            BDT</span>
                                         <span class="price old-price">{{ number_format($product->price,2) }} BDT</span>
                                         @else
-                                        <span class="price current-price">{{ number_format($product->price,2) }} BDT</span>
+                                        <span class="price current-price">{{ number_format($product->price,2) }}
+                                            BDT</span>
                                         @endif
                                     </div>
                                 </div>
@@ -331,7 +335,7 @@
                         </div>
                     </div>
                     @endforeach
-                   
+
                 </div>
             </div>
             <!-- End .slick-single-layout -->

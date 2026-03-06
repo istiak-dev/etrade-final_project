@@ -21,14 +21,14 @@ class ProductController extends Controller
 
     public function storeProduct(ProductRequest $request)
     {
-        
+        // ProductRequest
         // 1. Handle Main Image
         $productImg = $request->hasFile('image') ? $request->file('image')->store('product', 'public') : null;
 
         // 2. Handle Gallery Images
         $galleryPaths = [];
-        if($request->hasFile('gall_img')) {
-            foreach($request->file('gall_img') as $file) {
+        if($request->hasFile('gall_Img')) {
+            foreach($request->file('gall_Img') as $file) {
                 $galleryPaths[] = $file->store('galleryimg', 'public');
             }
         }
