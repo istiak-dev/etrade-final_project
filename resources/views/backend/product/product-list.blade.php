@@ -49,7 +49,11 @@
                             <td>
                                 <div class="deal-show mb-1">
                                     @if ($product->deal_date)
-                                        @if (date('Y-m-d', strtotime($product->deal_date)) > date('Y-m-d'))
+                                        @if (isset($product->deal_status) && $product->deal_status == 0)
+                                            <span class="text-warning">
+                                                {{ date('Y-m-d', strtotime($product->deal_date)) }} (Suspended!)
+                                            </span>
+                                        @elseif (date('Y-m-d', strtotime($product->deal_date)) > date('Y-m-d'))
                                             <span class="text-info">
                                                 {{ date('Y-m-d', strtotime($product->deal_date)) }} (Upcoming)
                                             </span>
@@ -68,9 +72,16 @@
                                 </div>
 
                                 <div class="d-flex gap-2 align-items-center">
-                                    <form action="" class="">
-                                        <button class="btn btn-sm btn-secondary">
-                                            Suspend/Resume
+                                    <form action="{{ route('admin.product.updateproduct', $product->id) }}" method="POST"
+                                        class="">
+                                        @csrf
+                                        <input type="hidden" name="deal_status"
+                                            value="{{ ($product->deal_status ?? 0) == 1 ? 0 : 1 }}">
+
+                                        <button
+                                            class="btn btn-sm {{ ($product->deal_status ?? 0) == 1 ? ($product->deal_date && !(date('Y-m-d', strtotime($product->deal_date)) < date('Y-m-d')) ? 'btn-danger' : 'btn-secondary') : ($product->deal_date && !(date('Y-m-d', strtotime($product->deal_date)) < date('Y-m-d')) ? 'btn-info' : 'btn-secondary') }}"
+                                            {{ $product->deal_date && !(date('Y-m-d', strtotime($product->deal_date)) < date('Y-m-d')) ? '' : 'disabled' }}>
+                                            {{ ($product->deal_status ?? 0) == 1 ? 'Suspend' : 'Resume' }}
                                         </button>
                                     </form>
 

@@ -57,7 +57,7 @@
                             @foreach ($products as $product)
                                 <div class="single-slide slick-slide p-5" data-sal="slide-up" data-sal-delay="600"
                                     data-sal-duration="1500">
-                                    <img src="{{ getImage($product->image) }}" alt="Product">
+                                    <img class="img-fluid" style="aspect-ratio:1/1.1" src="{{ getImage($product->image) }}" alt="Product">
                                     <div class="product-price">
                                         <span class="text">From</span>
                                         <span class="price-amount">{{ $product->price }} <small>BDT</small></span>
@@ -104,54 +104,54 @@
     <!-- End Categorie Area  -->
 
     <!-- Poster Countdown Area  -->
-    <div class="axil-poster-countdown">
-        <div class="container">
-            <div class="poster-countdown-wrap bg-lighter">
-                @foreach ($products as $product)
-                    <div class="row-wrapper">
-                        <div class="row align-items-center">
-                            <div class="col-xl-5 col-lg-6">
-                                <div class="poster-countdown-content">
-                                    <div class="section-title-wrapper">
-                                        <h4 style="color: #ff497c;">
-                                            @if ($product->price < 1000)
-                                                {{-- Show Percentage for cheap items --}}
-                                                {{ round((($product->price - $product->sale_price) / $product->price) * 100) }}%
-                                                OFF!
-                                            @else
-                                                {{-- Show BDT for expensive items --}}
-                                                {{ number_format($product->price - $product->sale_price, 0) }} BDT OFF!
-                                            @endif
-                                            &nbsp;
-                                        <small class="text-muted fs-2"> Don't Miss!!</small>
-                                        </h4>
+    @if (isset($ddProducts) && count($ddProducts) > 0)
+        <div class="axil-poster-countdown">
+            <div class="container">
+                <div class="poster-countdown-wrap bg-lighter">
+                    @foreach ($ddProducts as $ddProduct)
+                        <div class="row-wrapper">
+                            <div class="row align-items-center">
+                                <div class="col-xl-5 col-lg-6">
+                                    <div class="poster-countdown-content">
+                                        <div class="section-title-wrapper">
+                                            <h4 style="color: #ff497c;">
+                                                @if ($ddProduct->price < 1000)
+                                                    {{-- Show Percentage for cheap items --}}
+                                                    {{ round((100 - ($ddProduct->sale_price / $ddProduct->price) * 100)) }}%
+                                                    OFF!
+                                                @endif
+                                                &nbsp;
+                                                <small class="text-muted fs-2"> Don't Miss!!</small>
+                                            </h4>
 
-                                        <h2 class="title">{{ $product->title }}</h2>
+                                            <h2 class="title">{{ $ddProduct->title }}</h2>
+                                        </div>
+
+                                        <div class="poster-countdown countdown mb--40"></div>
+
+                                        <a href="index-1.html#" class="axil-btn btn-bg-primary">Check it Out!</a>
                                     </div>
-
-                                    <div class="poster-countdown countdown mb--40"></div>
-
-                                    <a href="index-1.html#" class="axil-btn btn-bg-primary">Check it Out!</a>
                                 </div>
-                            </div>
-                            <div class="col-xl-7 col-lg-6">
-                                <div class="poster-countdown-thumbnail d-flex justify-content-center">
-                                    <img class="img-fluid" src="{{ getImage($product->image) }}" alt="Poster Product">
-                                    {{-- <div class="music-singnal">
+                                <div class="col-xl-7 col-lg-6">
+                                    <div class="poster-countdown-thumbnail d-flex justify-content-center">
+                                        <img class="img-fluid" style="aspect-ratio:1/1;" src="{{ getImage($ddProduct->image) }}"
+                                            alt="Poster Product">
+                                        {{-- <div class="music-singnal">
                                         <div class="item-circle circle-1"></div>
                                         <div class="item-circle circle-2"></div>
                                         <div class="item-circle circle-3"></div>
                                         <div class="item-circle circle-4"></div>
                                         <div class="item-circle circle-5"></div>
                                     </div> --}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
         </div>
-    </div>
+    @endif
     <!-- End Poster Countdown Area  -->
 
     <!-- Start Expolre Product Area  -->
@@ -1284,9 +1284,10 @@
         $(function() {
             // daily deal countdown js
             // start
-            $('.poster-countdown').countdown('{{ date('Y/m/d H:i:s', strtotime($product->deal_date)) }}');
+            @if (isset($ddProducts) && count($ddProducts) > 0)
+                $('.poster-countdown').countdown('{{ date('Y/m/d 23:59:59') }}');
+            @endif
             // end ...
-            $('.poster-countdown').countdown('{{ date('Y/m/d 23:59:59') }}');
             // Pause the countdown
             $('div#clock').countdown('pause');
             // Resume the countdown
@@ -1297,7 +1298,7 @@
                 arrows: false,
                 autoplay: true,
                 autoplaySpeed: 3000,
-                adaptiveHeight: true,
+                adaptiveHeight: false,
             });
         })
     </script>

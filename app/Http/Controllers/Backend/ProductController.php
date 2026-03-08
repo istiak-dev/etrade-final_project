@@ -96,20 +96,26 @@ class ProductController extends Controller
     {
         $product = product::findOrFail($id);
 
-        // // 1. Check for Suspend/Resume Toggle (Fast Track)
-        // if ($request->has('toggle_field')) {
-        //     $product->update([
-        //         'deal_status' => !$product->deal_status
-        //     ]);
-        //     return back()->with('msg', ['type' => 'success', 'content' => 'Deal status flipped!']);
-        // }
+        // 1. daily deal status update
+        if ($request->has('deal_status')) {
+            $product->update(['deal_status' => $request->deal_status]);
 
-        // 2. Check for Modal Date Save
+            if ($request->deal_status == '1') {
+                return back()->with('msg', ['content' => 'Deal resumed!']);
+            } elseif ($request->deal_status == '0') {
+                return back()->with('msg', ['type' => 'error','content' => 'Deal suspended!']);
+            }
+        }
+
+        // 2. daily deal date update
         if ($request->has('deal_date') && $request->has('id')) {
-            $product->update([
-                'deal_date'   => $request->deal_date
-            ]);
-            return back()->with('msg', ['type' => 'success', 'content' => 'Deal Scheduled!']);
+            if ($request->filled('deal_date')) {
+                $product->update(['deal_date'   => $request->deal_date]);
+
+                return back()->with('msg', ['type' => 'success', 'content' => 'Deal Scheduled!']);
+            } else {
+                return back()->with('msg', ['type' => 'error', 'content' => 'Please select a valid date!']);
+            }
         }
 
 

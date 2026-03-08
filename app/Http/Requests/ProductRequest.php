@@ -24,7 +24,11 @@ class ProductRequest extends FormRequest
         if ($this->has('deal_date')) {
             return [
                 'deal_date' => 'nullable|after_or_equal:today',
-                'deal_status' => 'nullable'
+            ];
+        }
+        if ($this->has('deal_status')) {
+            return [
+                'deal_status' => 'nullable',
             ];
         }
         return [
