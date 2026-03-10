@@ -189,9 +189,9 @@
                     </div>
                     <div class="mt-4">
                         <label for="gallImges" class="form-label ">Gallery Images</label>
-                        <input class="form-control form-control-lg" name="gall_Img[]" id="gallImges" type="file"
+                        <input class="form-control form-control-lg" name="gall_img[]" id="gallImges" type="file"
                             multiple />
-                        @error('gall_Img[]')
+                        @error('gall_img[]')
                         <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
