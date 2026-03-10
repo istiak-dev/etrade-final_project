@@ -21,7 +21,7 @@ class ProductController extends Controller
 
     public function storeProduct(ProductRequest $request)
     {
-
+        // ProductRequest
         // 1. Handle Main Image
         $productImg = $request->hasFile('image') ? $request->file('image')->store('product', 'public') : null;
 
