@@ -33,15 +33,15 @@ class ProductRequest extends FormRequest
         }
         return [
             'title' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:products,slug,',
+            'slug' => 'required|string|max:255|unique:products,slug,' . $this->route('id'),
             'short_description' => 'nullable|string',
             'description' => 'nullable|string',
 
             'category_id' => 'required|exists:categories,id',
 
             'brand_name' => 'nullable|string|max:255',
-            'model' => 'nullable|string|max:255|unique:products,model,',
-            'sku' => 'nullable|string|max:255|unique:products,sku,',
+            'model' => 'nullable|string|max:255|unique:products,model,' . $this->route('id'),
+            'sku' => 'nullable|string|max:255|unique:products,sku,' . $this->route('id'),
 
             'stock' => 'nullable|min:0',
             'minstock' => 'nullable|min:0',
@@ -51,7 +51,8 @@ class ProductRequest extends FormRequest
 
 
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp',
-            'gall_img' => 'nullable|image|mimes:jpg,jpeg,png,webp',
+            'gall_img' => 'nullable|array|max:12',
+            'gall_img.*' => 'image|mimes:jpg,jpeg,png,webp',
 
             'published_status' => 'nullable|string',
             'published_date' => 'nullable',

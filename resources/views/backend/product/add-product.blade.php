@@ -4,6 +4,18 @@
         <h2>{{ request()->id ? 'Edit Product' : 'Add New Product' }}</h2>
         <p>{{ request()->id ? 'Edit product and store' : 'Add a new product to your store' }} </p>
     </div>
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+
     <form
         action="{{ request()->id ? route('admin.product.updateproduct', request()->id) : route('admin.product.storproduct') }}"
         enctype="multipart/form-data" method="POST">
@@ -62,7 +74,9 @@
                                 aria-label="Default select example">
                                 @forelse ($categories as $category)
                                     <option selected disabled>Please select a Cagtegory</option>
-                                    <option value="{{ $category->id }}">{{ $category->title }}</option>
+                                    <option value="{{ $category->id }}"
+                                        {{ ($products->where('id', request()->id)->first()->category_id ?? null) === $category->id ? 'selected' : '' }}>
+                                        {{ $category->title }}</option>
                                 @empty
                                     <option selected disabled>Please add Cagtegory</option>
                                 @endforelse
@@ -177,9 +191,20 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-6">
-                                <img id="preview" src="" alt="" class="img-fluid">
+                                @php
+                                    $existingImg =
+                                        request()->id && $products->where('id', request()->id)->first()->image
+                                            ? getImage($products->where('id', request()->id)->first()->image)
+                                            : '';
+                                @endphp
+
+                                <img id="preview"
+                                    style="width: 100px; aspect-ratio:1/1; display:{{ $existingImg ? 'block' : 'none' }};"
+                                    src="{{ $existingImg }}"
+                                    alt="{{ $products->where('id', request()->id)->first()->title ?? '' }}">
                             </div>
                         </div>
+
                         <div>
                             <label for="productimg" class="form-label">Choose Image</label>
                             <input class="form-control form-control-lg" name="image" id="productimg" type="file" />
@@ -187,10 +212,20 @@
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="row gallleryImg">
 
+                        <div class="row gallleryImg mt-4 mb-1 g-0 gap-3">
+                            @if (request()->id && $currentGall = json_decode($products->where('id', request()->id)->first()->gall_img, true))
+                                @foreach ($currentGall as $img)
+                                    <div class="col-2">
+
+                                        <img class="img-fluid" style="aspect-ratio:1/1;" src=" {{ getImage($img) }} "
+                                            alt="{{ $products->where('id', request()->id)->first()->title }}">
+                                    </div>
+                                @endforeach
+                            @endif
                         </div>
-                        <div class="mt-4">
+
+                        <div>
                             <label for="gallImges" class="form-label ">Gallery Images</label>
                             <input class="form-control form-control-lg" name="gall_img[]" id="gallImges" type="file"
                                 multiple />
@@ -199,7 +234,9 @@
                             @enderror
                         </div>
                     </div>
+                    
                 </div>
+
                 <div class="card border border-light border-2 rounded-3 mb-4">
                     <h4 class="card-header">Schedule</h4>
                     <hr class="p-0 m-0">
@@ -239,12 +276,14 @@
 @push('js')
     <script>
         $(function() {
+            // slug logic
             $('input[name="title"]').keyup(function() {
                 const slug = $(this).val().toLowerCase().replaceAll(' ', '-').replaceAll('@', '')
                     .replaceAll('#', '')
                 $('input[name="slug"]').val(slug)
             })
 
+            //single img logic
             $('#productimg').change(function() {
                 const file = $(this)[0].files[0]
                 const url = URL.createObjectURL(file)
@@ -252,7 +291,7 @@
             })
 
             $('#gallImges').on('change', function(e) {
-                const previewContainer = $('.gallleryImg');
+                const previewContainer = $('.gallleryImg').empty();
 
                 Array.from(e.target.files).forEach(file => {
                     if (file.type.startsWith('image/')) {
@@ -270,6 +309,8 @@
             $('.gallleryImg').on('click', '.badge', function() {
                 $(this).parent().remove();
             })
+
+            //rich text editor init
             var editor1 = new RichTextEditor("#productDescription");
             //editor1.setHTMLCode("Use inline HTML or setHTMLCode to init the default content.");
         })

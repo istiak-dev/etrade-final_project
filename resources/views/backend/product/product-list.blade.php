@@ -103,7 +103,7 @@
                                     </button>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item"
-                                            href="{{ route('admin.product.updateproduct', $product->id) }}"><i
+                                            href="{{ route('admin.product.add', $product->id) }}"><i
                                                 class="icon-base bx bx-edit-alt me-1"></i> Edit</a>
                                         <a class="dropdown-item"
                                             href="{{ route('admin.product.deleteproduct', $product->id) }}"><i

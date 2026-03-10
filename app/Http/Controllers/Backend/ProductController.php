@@ -29,7 +29,7 @@ class ProductController extends Controller
         $galleryPaths = [];
         if ($request->hasFile('gall_img')) {
             foreach ($request->file('gall_img') as $file) {
-                $galleryPaths[] = $file->store('galleryimg', 'public');
+                $galleryPaths[] = $file->store('product/galleryimg', 'public');
             }
         }
 
@@ -68,16 +68,16 @@ class ProductController extends Controller
 
     public function deleteProduct($id)
     {
-        $product = Product::findOrFail($id);
+        $oldProduct = Product::findOrFail($id);
 
         // Delete Main Image
-        if ($product->image && Storage::disk('public')->exists($product->image)) {
-            Storage::disk('public')->delete($product->image);
+        if ($oldProduct->image && Storage::disk('public')->exists($oldProduct->image)) {
+            Storage::disk('public')->delete($oldProduct->image);
         }
 
         // Delete Gallery Images
-        if ($product->gall_img) {
-            $images = json_decode($product->gall_img, true);
+        if ($oldProduct->gall_img) {
+            $images = json_decode($oldProduct->gall_img, true);
             if (is_array($images)) {
                 foreach ($images as $img) {
                     if (Storage::disk('public')->exists($img)) {
@@ -87,30 +87,30 @@ class ProductController extends Controller
             }
         }
 
-        $product->delete();
+        $oldProduct->delete();
 
         return redirect()->route('admin.product.list')->with('msg', ['type' => 'warning', 'content' => 'Product Deleted!']);
     }
 
     public function updateProduct(ProductRequest $request, $id)
     {
-        $product = product::findOrFail($id);
+        $oldProduct = product::findOrFail($id);
 
         // 1. daily deal status update
         if ($request->has('deal_status')) {
-            $product->update(['deal_status' => $request->deal_status]);
+            $oldProduct->update(['deal_status' => $request->deal_status]);
 
             if ($request->deal_status == '1') {
                 return back()->with('msg', ['content' => 'Deal resumed!']);
             } elseif ($request->deal_status == '0') {
-                return back()->with('msg', ['type' => 'error','content' => 'Deal suspended!']);
+                return back()->with('msg', ['type' => 'error', 'content' => 'Deal suspended!']);
             }
         }
 
         // 2. daily deal date update
         if ($request->has('deal_date') && $request->has('id')) {
             if ($request->filled('deal_date')) {
-                $product->update(['deal_date'   => $request->deal_date]);
+                $oldProduct->update(['deal_date'   => $request->deal_date]);
 
                 return back()->with('msg', ['type' => 'success', 'content' => 'Deal Scheduled!']);
             } else {
@@ -121,24 +121,34 @@ class ProductController extends Controller
 
         // Update Main Image (Only if new image is uploaded)
 
-        $productImg = $request->hasFile('image') ? $request->file('image')->store('product', 'public') : $product->image;
-        if ($request->hasFile('image') && $product->image) {
-            if (Storage::disk('public')->exists($product->image)) {
-                Storage::disk('public')->delete($product->image);
+        $productImg = $request->hasFile('image') ? $request->file('image')->store('product', 'public') : $oldProduct->image;
+        if ($request->hasFile('image') && $oldProduct->image) {
+            if (Storage::disk('public')->exists($oldProduct->image)) {
+                Storage::disk('public')->delete($oldProduct->image);
             }
         }
 
         // Update Gallery Images
-        $galleryPaths = json_decode($product->gall_img, true) ?? [];
         if ($request->hasFile('gall_img')) {
-            // Optional: delete old gallery images here if you want to replace them
+            //store in local storage
+            $galleryPaths = [];
             foreach ($request->file('gall_img') as $file) {
-                $galleryPaths[] = $file->store('galleryimg', 'public');
+                $galleryPaths[] = $file->store('product/galleryimg', 'public');
             }
+            //delete from local storage
+            if ($oldProduct->gall_img) {
+                $images = json_decode($oldProduct->gall_img, true) ?? [];
+                foreach ($images as $img) {
+                    Storage::disk('public')->exists($img) ? Storage::disk('public')->delete($img) : null;
+                }
+            }
+        } else {
+            $galleryPaths = json_decode($oldProduct->gall_img, true) ?? [];
         }
 
+
         // Use update() instead of create()
-        $product->update([
+        $oldProduct->update([
             'title'             => $request->title,
             'slug'              => str($request->title)->slug(),
             'short_description' => $request->short_description,
