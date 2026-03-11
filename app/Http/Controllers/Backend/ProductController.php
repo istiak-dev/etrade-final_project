@@ -110,9 +110,10 @@ class ProductController extends Controller
         // 2. daily deal date update
         if ($request->has('deal_date') && $request->has('id')) {
             if ($request->filled('deal_date')) {
-                $oldProduct->update(['deal_date'   => $request->deal_date]);
 
+                $oldProduct->update(['deal_date'   => $request->deal_date, 'deal_status' => true]);
                 return back()->with('msg', ['type' => 'success', 'content' => 'Deal Scheduled!']);
+
             } else {
                 return back()->with('msg', ['type' => 'error', 'content' => 'Please select a valid date!']);
             }
@@ -120,7 +121,6 @@ class ProductController extends Controller
 
 
         // Update Main Image (Only if new image is uploaded)
-
         $productImg = $request->hasFile('image') ? $request->file('image')->store('product', 'public') : $oldProduct->image;
         if ($request->hasFile('image') && $oldProduct->image) {
             if (Storage::disk('public')->exists($oldProduct->image)) {
@@ -150,7 +150,7 @@ class ProductController extends Controller
         // Use update() instead of create()
         $oldProduct->update([
             'title'             => $request->title,
-            'slug'              => str($request->title)->slug(),
+            // 'slug'              => str($request->title)->slug(),
             'short_description' => $request->short_description,
             'description'       => $request->description,
             'catagory_id'       => $request->catagory_id,

@@ -121,7 +121,7 @@
                                                     OFF!
                                                 @endif
                                                 &nbsp;
-                                                <small class="text-muted fs-2"> Don't Miss!!</small>
+                                                <small class="fs-2"> Don't Miss!!</small>
                                             </h4>
 
                                             <h2 class="title">{{ $ddProduct->title }}</h2>

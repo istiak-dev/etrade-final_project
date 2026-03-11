@@ -4,16 +4,6 @@
         <h4 class="card-header">Product List</h4>
         <div class="table-responsive text-nowrap">
 
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
             <table class="table table-responsive table-striped pb-5">
                 <thead class="table-light">
                     <tr>
@@ -22,19 +12,19 @@
                         <th>p.image</th>
                         <th>Catagory</th>
                         <th>Slug</th>
-                        <th>Regular Price</th>
+                        <th>Price</th>
                         <th>Sale Price</th>
                         <th>Daily Deal</th>
                         <th>Sku</th>
                         <th>Stock</th>
-                        <th>Brand Name</th>
+                        <th>Brand</th>
                         <th>Model</th>
-                        <th>Publish Status</th>
+                        <th>Pub. Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody class="table-border-bottom-0">
-                    @foreach ($products as $key => $product)
+                    @forelse ($products as $key => $product)
                         <tr>
 
                             <td>{{ ++$key }} </td>
@@ -102,8 +92,7 @@
                                         <i class="icon-base bx bx-dots-vertical-rounded"></i>
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item"
-                                            href="{{ route('admin.product.add', $product->id) }}"><i
+                                        <a class="dropdown-item" href="{{ route('admin.product.add', $product->id) }}"><i
                                                 class="icon-base bx bx-edit-alt me-1"></i> Edit</a>
                                         <a class="dropdown-item"
                                             href="{{ route('admin.product.deleteproduct', $product->id) }}"><i
@@ -153,7 +142,21 @@
                                 </div>
                             </div>
                         </div>
-                    @endforeach
+                    @empty
+
+                        <tr>
+                            <td colspan="19" class="border-0">
+                                <div class="empty-state text-center pt-4">
+                                    <div class="mb-3">
+                                        <i class="icon-base bx bx-package bx-lg text-secondary"></i>
+                                    </div>
+
+                                    <h5 class="text-muted fw-semibold">No Products Found</h5>
+                                    <p class="text-muted mb-4">It looks like you haven't added any products yet.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
 
                 </tbody>
             </table>

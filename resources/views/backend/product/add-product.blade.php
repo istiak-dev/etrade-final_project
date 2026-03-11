@@ -15,7 +15,6 @@
         </div>
     @endif
 
-
     <form
         action="{{ request()->id ? route('admin.product.updateproduct', request()->id) : route('admin.product.storproduct') }}"
         enctype="multipart/form-data" method="POST">
@@ -39,7 +38,7 @@
                             <label for="productSlug" class="form-label">Product Slug</label>
                             <input value="{{ $products->where('id', request()->id)->first()->slug ?? '' }}" type="text"
                                 class="form-control" id="productSlug" name="slug"
-                                aria-describedby="defaultFormControlHelp" />
+                                aria-describedby="defaultFormControlHelp" readonly />
                             @error('slug')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
@@ -72,13 +71,13 @@
                             <label for="catagorySelect" class="form-label">Product Catagory</label>
                             <select class="form-select" name="category_id" id="catagorySelect"
                                 aria-label="Default select example">
+                                <option selected disabled>---Please select a cagtegory---</option>
                                 @forelse ($categories as $category)
-                                    <option selected disabled>Please select a Cagtegory</option>
                                     <option value="{{ $category->id }}"
                                         {{ ($products->where('id', request()->id)->first()->category_id ?? null) === $category->id ? 'selected' : '' }}>
                                         {{ $category->title }}</option>
                                 @empty
-                                    <option selected disabled>Please add Cagtegory</option>
+                                    <option disabled>List is empty</option>
                                 @endforelse
                             </select>
 
@@ -214,7 +213,7 @@
                         </div>
 
                         <div class="row gallleryImg mt-4 mb-1 g-0 gap-3">
-                            @if (request()->id && $currentGall = json_decode($products->where('id', request()->id)->first()->gall_img, true))
+                            @if (request()->id && ($currentGall = json_decode($products->where('id', request()->id)->first()->gall_img, true)))
                                 @foreach ($currentGall as $img)
                                     <div class="col-2">
 
@@ -234,7 +233,7 @@
                             @enderror
                         </div>
                     </div>
-                    
+
                 </div>
 
                 <div class="card border border-light border-2 rounded-3 mb-4">
@@ -265,7 +264,8 @@
                 <div class="row justify-content-evenly pt-5">
                     {{-- <a href="" class="btn btn-primary col-5 p-2"><i class="bx bx-save me-2"></i>Save product</a> --}}
                     <button type="submit" class="btn btn-dark col-6 p-2">
-                        <i class="bx bx-plus me-2"></i>{{ request()->id ? 'Edit Product' : 'Add Product' }}
+                        <i
+                            class="bx bx-{{ request()->id ? 'save' : 'plus' }} me-2"></i>{{ request()->id ? 'Edit Product' : 'Add Product' }}
                     </button>
                 </div>
             </div>
@@ -278,9 +278,11 @@
         $(function() {
             // slug logic
             $('input[name="title"]').keyup(function() {
-                const slug = $(this).val().toLowerCase().replaceAll(' ', '-').replaceAll('@', '')
-                    .replaceAll('#', '')
-                $('input[name="slug"]').val(slug)
+                if ("{{ $products->where('id', request()->id)->first()->slug ?? '' }}" === "") {
+                    const slug = $(this).val().toLowerCase().replaceAll(' ', '-').replaceAll('@', '')
+                        .replaceAll('#', '')
+                    $('input[name="slug"]').val(slug)
+                }
             })
 
             //single img logic
