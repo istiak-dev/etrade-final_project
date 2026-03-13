@@ -13,3 +13,8 @@ function getImage($src = null){
 
     return asset('storage/'. $src);
 }
+
+
+function getDiscount($product){
+    return round((100 - ($product->sale_price / $product->price) * 100)) . '%';
+}

@@ -95,7 +95,7 @@
                                     <a href="index-1.html#">Shop</a>
                                     <ul class="axil-submenu">
                                         @foreach ($categories as $category)
-                                            <li><a href="{{ $category->slug }}">{{ $category->title }}</a></li>
+                                        <li><a href="{{ $category->slug }}">{{ $category->title }}</a></li>
                                         @endforeach
                                     </ul>
                                 </li>
@@ -320,8 +320,7 @@
                                 <span>Save $3 With App & New User only</span>
                                 <div class="download-btn-group">
                                     <div class="qr-code">
-                                        <img src="{{ asset('frontend/assets/images/others/qr.png') }}"
-                                            alt="Axilthemes">
+                                        <img src="{{ asset('frontend/assets/images/others/qr.png') }}" alt="Axilthemes">
                                     </div>
                                     <div class="app-link">
                                         <a href="index-1.html#">
@@ -562,68 +561,12 @@
             </div>
             <div class="card-body">
                 <div class="search-result-header">
-                    <h6 class="title">24 Result Found</h6>
+                    <h6 class="title"><span>0</span> Result Found</h6>
                     <a href="shop.html" class="view-all">View All</a>
                 </div>
                 <div class="psearch-results">
-                    <div class="axil-product-list">
-                        <div class="thumbnail">
-                            <a href="single-product.html">
-                                <img src="{{ asset('frontend/assets/images/product/electric/product-09.png') }}"
-                                    alt="Yantiti Leather Bags">
-                            </a>
-                        </div>
-                        <div class="product-content">
-                            <div class="product-rating">
-                                <span class="rating-icon">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fal fa-star"></i>
-                                </span>
-                                <span class="rating-number"><span>100+</span> Reviews</span>
-                            </div>
-                            <h6 class="product-title"><a href="single-product.html">Media Remote</a></h6>
-                            <div class="product-price-variant">
-                                <span class="price current-price">$29.99</span>
-                                <span class="price old-price">$49.99</span>
-                            </div>
-                            <div class="product-cart">
-                                <a href="cart.html" class="cart-btn"><i class="fal fa-shopping-cart"></i></a>
-                                <a href="wishlist.html" class="cart-btn"><i class="fal fa-heart"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="axil-product-list">
-                        <div class="thumbnail">
-                            <a href="single-product.html">
-                                <img src="{{ asset('frontend/assets/images/product/electric/product-09.png') }}"
-                                    alt="Yantiti Leather Bags">
-                            </a>
-                        </div>
-                        <div class="product-content">
-                            <div class="product-rating">
-                                <span class="rating-icon">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fal fa-star"></i>
-                                </span>
-                                <span class="rating-number"><span>100+</span> Reviews</span>
-                            </div>
-                            <h6 class="product-title"><a href="single-product.html">Media Remote</a></h6>
-                            <div class="product-price-variant">
-                                <span class="price current-price">$29.99</span>
-                                <span class="price old-price">$49.99</span>
-                            </div>
-                            <div class="product-cart">
-                                <a href="cart.html" class="cart-btn"><i class="fal fa-shopping-cart"></i></a>
-                                <a href="wishlist.html" class="cart-btn"><i class="fal fa-heart"></i></a>
-                            </div>
-                        </div>
-                    </div>
+
+
                 </div>
             </div>
         </div>
@@ -768,6 +711,73 @@
     <script src="{{ asset('frontend/assets/js/vendor/counterup.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/vendor/waypoints.min.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/main.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            // Searching
+            const input = $('#header-search-modal #prod-search')
+            input.keyup(function(){
+                // input value
+                const value = $(this).val();
+                
+                // Ajax Request
+                $.ajax({
+                    url:`{{ route('shop.search') }}`,
+                    method:'GET',
+                    data:{
+                        search:value
+                    },
+                    success : function(res){
+                        $('.search-result-header span').html(res.count)
+
+                        let HTMLProductArray = [];
+
+                        res.data.forEach(product => {
+                        let productURL = `{{ route('shop.product', 'slug_placeholder') }}`
+                        productURL = productURL.replace('slug_placeholder', product.slug)   
+                        
+                        const productHTML = `<div class="axil-product-list">
+                        <div class="thumbnail">
+                            <a href="single-product.html">
+                                <img width="120" src="{{ getImage('${product.image}') }}"
+                                    alt="${product.title}">
+                            </a>
+                        </div>
+                        <div class="product-content">
+                            <div class="product-rating">
+                                <span class="rating-icon">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fal fa-star"></i>
+                                </span>
+                                <span class="rating-number"><span>100+</span> Reviews</span>
+                            </div>
+                            <h6 class="product-title"><a href="${productURL}">${product.title}</a></h6>
+                            <div class="product-price-variant">
+                                <span class="price current-price">${product?.sale_price ? product.sale_price.toFixed(2) : product?.price}</span>
+                                <span class="price old-price">${product?.price ? product.price.toFixed(2) : ''}</span>
+                            </div>
+                            <div class="product-cart">
+                                <a href="cart.html" class="cart-btn"><i class="fal fa-shopping-cart"></i></a>
+                                <a href="wishlist.html" class="cart-btn"><i class="fal fa-heart"></i></a>
+                            </div>
+                        </div>
+                    </div>`
+                        HTMLProductArray.push(productHTML)
+                    })
+                    $('.psearch-results').html(HTMLProductArray)
+                    
+                    },
+                    error : function(err){
+                        console.error(err)
+                    }
+                })
+
+            })
+
+        })
+    </script>
 
     <!-- Main JS -->
 

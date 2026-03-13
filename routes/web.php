@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [HomeController::class,'homepage'])->name('home');
+// product search
+Route::get('/product-search', [ShopController::class, 'productSearch'])->name('shop.search')  ;
 
 // Shop
 Route::get('/shop', [ShopController::class, 'shop'])->name('shop')  ;

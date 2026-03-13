@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     protected $fillable = [
-
-        // hello world
         'title',
         'slug',
         'icon'
