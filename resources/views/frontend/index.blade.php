@@ -117,11 +117,9 @@
                                         <div class="section-title-wrapper">
                                             <h4 style="color: #ff497c;">
                                                 @if ($ddProduct->sale_price > 0 && $ddProduct->sale_price < $ddProduct->price)
-
-                                                    @if ( 99 >= $discount = (100 - ($ddProduct->sale_price / $ddProduct->price) * 100))
+                                                    @if (99 >= ($discount = 100 - ($ddProduct->sale_price / $ddProduct->price) * 100))
                                                         {{ round($discount) . '% OFF!' }}
                                                     @endif
-
                                                 @endif
                                                 &nbsp;
                                                 <small class="fs-2"> Don't Miss!!</small>
@@ -137,7 +135,7 @@
                                 </div>
                                 <div class="col-xl-7 col-lg-6">
                                     <div class="poster-countdown-thumbnail d-flex justify-content-center">
-                                        <img class="img-fluid" style="aspect-ratio:1/1;"
+                                        <img class="img-fluid w-100" style="aspect-ratio:1/1;"
                                             src="{{ getImage($ddProduct->image) }}" alt="Poster Product">
                                         {{-- <div class="music-singnal">
                                         <div class="item-circle circle-1"></div>
