@@ -194,11 +194,11 @@
                                     $existingImg =
                                         request()->id && $products->where('id', request()->id)->first()->image
                                             ? getImage($products->where('id', request()->id)->first()->image)
-                                            : '';
+                                            : getImage();
                                 @endphp
 
                                 <img id="preview"
-                                    style="width: 100px; aspect-ratio:1/1; display:{{ $existingImg ? 'block' : 'none' }};"
+                                    style="width: 100px; aspect-ratio:1/1;"
                                     src="{{ $existingImg }}"
                                     alt="{{ $products->where('id', request()->id)->first()->title ?? '' }}">
                             </div>

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\product;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ShopController extends Controller
@@ -23,7 +23,7 @@ class ShopController extends Controller
 
     function getProduct($slug)
     {
-        $product = product::where('slug', $slug)->firstOrFail();
+        $product = Product::where('slug', $slug)->firstOrFail();
         // dd($product);
         return view('frontend.single-product', compact('product'));
     }
@@ -31,8 +31,8 @@ class ShopController extends Controller
     function productSearch(Request $request)
     {
         $search = $request->search;
-        $products = product::whereLike('title', "%$search%")->latest()->take(4)->get();
-        $count = product::whereLike('title', "%$search%")->latest()->count();
+        $products = Product::whereLike('title', "%$search%")->latest()->take(4)->get();
+        $count = Product::whereLike('title', "%$search%")->latest()->count();
 
         return response()->json([
             'data' => $products,

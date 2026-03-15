@@ -94,7 +94,7 @@ class ProductController extends Controller
 
     public function updateProduct(ProductRequest $request, $id)
     {
-        $oldProduct = product::findOrFail($id);
+        $oldProduct = Product::findOrFail($id);
 
         // 1. daily deal status update
         if ($request->has('deal_status')) {
