@@ -27,4 +27,8 @@ class Product extends Model
         'published_status',
         'published_date'
     ];
+
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
 }

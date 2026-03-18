@@ -80,7 +80,7 @@
                             </div>
                             <ul class="mainmenu">
                                 <li class="menu-item-has-children">
-                                    <a href="index-1.html#">Home</a>
+                                    <a href="{{route('home')}}">Home</a>
                                     <ul class="axil-submenu">
                                         <li><a href="index-1.html">Home - Electronics</a></li>
                                         <li><a href="index-2.html">Home - NFT</a></li>
@@ -92,7 +92,7 @@
                                     </ul>
                                 </li>
                                 <li class="menu-item-has-children">
-                                    <a href="index-1.html#">Shop</a>
+                                    <a href="{{route('shop')}}">Shop</a>
                                     <ul class="axil-submenu">
                                         @foreach ($categories as $category)
                                         <li><a href="{{ $category->slug }}">{{ $category->title }}</a></li>
@@ -551,7 +551,7 @@
         <button class="card-close sidebar-close"><i class="fas fa-times"></i></button>
         <div class="header-search-wrap">
             <div class="card-header">
-                <form action="index-1.html#">
+                <form action="{{route('shop')}}" method="GET">
                     <div class="input-group">
                         <input type="search" class="form-control" name="prod-search" id="prod-search"
                             placeholder="Write Something....">
@@ -733,7 +733,7 @@
 
                         res.data.forEach(product => {
                         let productURL = `{{ route('shop.product', 'slug_placeholder') }}`
-                        productURL = productURL.replace('slug_placeholder', product.slug)   
+                        productURL = productURL.replace('slug_placeholder', product.slug)
                         
                         const productHTML = `<div class="axil-product-list">
                         <div class="thumbnail">
