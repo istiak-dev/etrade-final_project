@@ -720,7 +720,12 @@
             input.keyup(function(){
                 // input value
                 const value = $(this).val();
-                
+                // clear suggestion when user removed all word
+                if (value.length === 0) {
+                    $('.psearch-results').empty();
+                    $('.search-result-header span').html(0)
+                    return;
+                }
                 // Ajax Request
                 $.ajax({
                     url:`{{ route('shop.search') }}`,
@@ -768,11 +773,10 @@
                         </div>
                     </div>`
                         HTMLProductArray.push(productHTML)
-                        console.log(productURL);
-                        
                     })
+
                     $('.psearch-results').html(HTMLProductArray)
-                    
+
                     },
                     error : function(err){
                         console.error(err)

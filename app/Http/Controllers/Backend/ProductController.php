@@ -174,7 +174,14 @@ class ProductController extends Controller
     {
         $search = $request->search;
         $products = Product::with('category:id,title')
-            ->whereLike('title', "%$search%")
+            ->where(function ($query) use ($search) {
+                $query->whereLike('title', "%$search%")
+                ->orWhereLike('brand_name', "%$search%")
+                ->orWhereLike('model', "%$search%")
+                ->orWhereHas('category', function ($q) use ($search){
+                    $q->whereLike('title', "%$search%");
+                });
+            })
             ->select('id', 'title', 'image', 'category_id', 'slug', 'price', 'sale_price', 'deal_date', 'deal_status', 'sku', 'stock', 'brand_name', 'model', 'published_status')
             ->latest()->get();
             

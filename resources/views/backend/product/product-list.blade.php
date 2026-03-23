@@ -169,7 +169,6 @@
     <script>
         $(function() {
 
-
             $('input.backend_search').keyup(function() {
 
                 const value = $(this).val()
