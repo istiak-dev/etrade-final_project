@@ -113,7 +113,6 @@ class ProductController extends Controller
 
                 $oldProduct->update(['deal_date'   => $request->deal_date, 'deal_status' => true]);
                 return back()->with('msg', ['type' => 'success', 'content' => 'Deal Scheduled!']);
-
             } else {
                 return back()->with('msg', ['type' => 'error', 'content' => 'Please select a valid date!']);
             }
@@ -153,7 +152,6 @@ class ProductController extends Controller
             // 'slug'              => str($request->title)->slug(),
             'short_description' => $request->short_description,
             'description'       => $request->description,
-            'catagory_id'       => $request->catagory_id,
             'category_id'       => $request->category_id,
             'brand_name'        => $request->brand_name,
             'model'             => $request->model,
@@ -170,5 +168,18 @@ class ProductController extends Controller
         ]);
 
         return back()->with('msg', ['type' => 'success', 'content' => 'Product Updated!']);
+    }
+
+    public function searchProduct(Request $request)
+    {
+        $search = $request->search;
+        $products = Product::with('category:id,title')
+            ->whereLike('title', "%$search%")
+            ->select('id', 'title', 'image', 'category_id', 'slug', 'price', 'sale_price', 'deal_date', 'deal_status', 'sku', 'stock', 'brand_name', 'model', 'published_status')
+            ->latest()->get();
+            
+        return response()->json([
+            'data' => $products,
+        ]);
     }
 }

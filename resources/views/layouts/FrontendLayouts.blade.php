@@ -713,6 +713,8 @@
     <script src="{{ asset('frontend/assets/js/main.js') }}"></script>
     <script>
         $(document).ready(function(){
+            let imgSrc = `{{getImage('img_path')}}`
+            let placeholder = `{{getImage('')}}`
             // Searching
             const input = $('#header-search-modal #prod-search')
             input.keyup(function(){
@@ -734,11 +736,12 @@
                         res.data.forEach(product => {
                         let productURL = `{{ route('shop.product', 'slug_placeholder') }}`
                         productURL = productURL.replace('slug_placeholder', product.slug)
+                        let getImage = product.image ? imgSrc.replace('img_path', product.image) : placeholder;
                         
                         const productHTML = `<div class="axil-product-list">
                         <div class="thumbnail">
                             <a href="single-product.html">
-                                <img width="120" src="{{ getImage('${product.image}') }}"
+                                <img width="120" src="${getImage}"
                                     alt="${product.title}">
                             </a>
                         </div>
@@ -765,6 +768,8 @@
                         </div>
                     </div>`
                         HTMLProductArray.push(productHTML)
+                        console.log(productURL);
+                        
                     })
                     $('.psearch-results').html(HTMLProductArray)
                     

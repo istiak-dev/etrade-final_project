@@ -69,4 +69,12 @@ class CategoryController extends Controller
             'content' => 'Delete Category!'
         ]);
     }
+
+    function searchCategory(Request $request){
+        $search = $request->search;
+        $categories = Category::whereLike('title',"%$search%")->select('id','title','icon')->latest()->get();
+        return response()->json([
+            'data' => $categories,
+        ]);
+    }
 }
