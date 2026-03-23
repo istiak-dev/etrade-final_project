@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="card">
-                        <table class="table table-responsive table-striped" id="">
+                        <table class="table table-responsive table-striped">
                             <thead>
                                 <tr>
                                     <th>#</th>
