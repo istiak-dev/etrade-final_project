@@ -713,10 +713,8 @@
     <script src="{{ asset('frontend/assets/js/main.js') }}"></script>
     <script>
         $(document).ready(function(){
-            let imgSrc = `{{getImage('img_path')}}`
-            let placeholder = `{{getImage('')}}`
             let lastValue = ''; 
-            let lastValidHTML = ''; // This is our "Sticky Memory"
+            let lastValidHTML = ''; // Temporary Memory
             
             // Searching
             const input = $('#header-search-modal #prod-search')
@@ -750,10 +748,15 @@
                         let HTMLProductArray = [];
 
                         res.data.forEach(product => {
+                        
+                        // pre-defined route
                         let productURL = `{{ route('shop.product', 'slug_placeholder') }}`
                         productURL = productURL.replace('slug_placeholder', product.slug)
+                        // getImage logic
+                        let imgSrc = `{{getImage('img_path')}}`
+                        let placeholder = `{{getImage('')}}`
                         let getImage = product.image ? imgSrc.replace('img_path', product.image) : placeholder;
-                        
+                            
                         const productHTML = `<div class="axil-product-list">
                         <div class="thumbnail">
                             <a href="single-product.html">
