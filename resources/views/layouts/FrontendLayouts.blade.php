@@ -715,17 +715,28 @@
         $(document).ready(function(){
             let imgSrc = `{{getImage('img_path')}}`
             let placeholder = `{{getImage('')}}`
+            let lastValue = ''; 
+            let lastValidHTML = ''; // This is our "Sticky Memory"
+            
             // Searching
             const input = $('#header-search-modal #prod-search')
             input.keyup(function(){
                 // input value
                 const value = $(this).val();
-                // clear suggestion when user removed all word
+
+                // 1. IF EMPTY: Stop the AJAX and show the "Sticky" last result
                 if (value.length === 0) {
-                    $('.psearch-results').empty();
-                    $('.search-result-header span').html(0)
-                    return;
+                    if (lastValidHTML !== '') {
+                        $('.psearch-results').html(lastValidHTML);
+                    }
+                    lastValue = ''; // Reset tracker so they can type the same thing again
+                    return; 
                 }
+
+                // 2. PREVENT GHOST EVENTS: If value hasn't changed, do nothing
+                if (value === lastValue) return;
+                lastValue = value;
+
                 // Ajax Request
                 $.ajax({
                     url:`{{ route('shop.search') }}`,
@@ -771,11 +782,12 @@
                                 <a href="wishlist.html" class="cart-btn"><i class="fal fa-heart"></i></a>
                             </div>
                         </div>
-                    </div>`
+                        </div>`
                         HTMLProductArray.push(productHTML)
                     })
 
                     $('.psearch-results').html(HTMLProductArray)
+                    lastValidHTML = HTMLProductArray;
 
                     },
                     error : function(err){
