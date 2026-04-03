@@ -89,21 +89,24 @@
                                     {{ $product->short_description }}
                                 </p>
                                 <!-- Start Product Action Wrapper  -->
-                                <div class="product-action-wrapper d-flex-center">
+                                <form class="product-action-wrapper d-flex-center" action="{{ route('cart.add', $product->id) }}" method="GET">
                                     <!-- Start Quentity Action  -->
-                                    <div class="pro-qty"><input type="text" value="1"></div>
+                                    <div class="pro-qty"><input type="text" value="1" name="qty"></div>
                                     <!-- End Quentity Action  -->
 
                                     <!-- Start Product Action  -->
                                     <ul class="product-action d-flex-center mb--0">
-                                        <li class="add-to-cart"><a href="cart.html" class="axil-btn btn-bg-primary">Add
-                                                to Cart</a></li>
+                                        <li class="add-to-cart">
+                                            <button type="submit" class="axil-btn btn-bg-primary">Add
+                                                to Cart
+                                            </button>
+                                            </li>
                                         <li class="wishlist"><a href="wishlist.html" class="axil-btn wishlist-btn"><i
                                                     class="far fa-heart"></i></a></li>
                                     </ul>
                                     <!-- End Product Action  -->
 
-                                </div>
+                                </form>
                                 <!-- End Product Action Wrapper  -->
                             </div>
                         </div>

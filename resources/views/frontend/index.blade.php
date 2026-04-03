@@ -189,11 +189,13 @@
                                                 <li class="quickview"><a href="index-1.html#" data-bs-toggle="modal"
                                                         data-bs-target="#quick-view-modal"><i class="far fa-eye"></i></a>
                                                 </li>
-                                                <li class="select-option">
-                                                    <a href="single-product.html">
-                                                        Add to Cart
-                                                    </a>
-                                                </li>
+                                                @auth('customer')
+                                                    <li class="select-option">
+                                                        <a href="{{ route('cart.add', $product->id) }}">
+                                                            Add to Cart
+                                                        </a>
+                                                    </li>
+                                                @endauth
                                                 <li class="wishlist"><a href="wishlist.html"><i
                                                             class="far fa-heart"></i></a>
                                                 </li>
