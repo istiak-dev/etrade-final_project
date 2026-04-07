@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
     {
         view()->composer('layouts.FrontendLayouts', function ($view) {
             $categories = Category::where('status', true)->select('id','title', 'slug')->take(20)->latest()->get();
-            $carts = auth('customer')->check() ? Cart::where('customer_id', auth('customer')->id())->with('product:id,slug,title,image,sale_price,price')->get() : null;
+            $carts = auth('customer')->check() ? Cart::where('customer_id', auth('customer')->id())->with('product:id,slug,title,image,sale_price,price')->get() : [];
             
             return $view->with(['categories' =>  $categories, 'carts' => $carts]);
         });

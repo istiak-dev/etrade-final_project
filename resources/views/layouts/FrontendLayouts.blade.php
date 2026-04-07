@@ -149,7 +149,7 @@
                             </li>
                             <li class="shopping-cart">
                                 <a href="index-1.html#" class="cart-dropdown-btn">
-                                    <span class="cart-count">{{ $carts->count() }}</span>
+                                    <span class="cart-count">{{ $carts ? $carts->count() : 0}}</span>
                                     <i class="flaticon-shopping-cart"></i>
                                 </a>
                             </li>
