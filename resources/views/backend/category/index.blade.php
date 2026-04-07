@@ -23,8 +23,8 @@
                                             {{ $category->title }}
                                         </td>
                                         <td>
-                                            <a href="{{ route('admin.category.show', 'id_placeholder') }}">Edit</a>
-                                            <a href="{{ route('admin.category.delete', 'id_placeholder') }}">Delete</a>
+                                            <a href="{{ route('admin.category.show', $category->id) }}">Edit</a>
+                                            <a href="{{ route('admin.category.delete', $category->id) }}">Delete</a>
                                         </td>
                                     </tr>
                                 @endforeach
