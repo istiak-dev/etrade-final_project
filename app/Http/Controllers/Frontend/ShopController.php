@@ -28,7 +28,7 @@ class ShopController extends Controller
         }
 
         $categories = Category::where('status', true)->select('id','title','slug')->latest()->get();
-        $products = $query->select('title', 'slug', 'category_id', 'image', 'price', 'sale_price')->latest()->get();
+        $products = $query->select('title', 'slug', 'category_id', 'image', 'price', 'sale_price','stock')->latest()->get();
         $count = $query->latest()->count();
 
         return view('frontend.shop-sidebar', compact('categories','products', 'count'));

@@ -82,8 +82,7 @@
                                     </div>
                                 </div>
                                 <ul class="product-meta">
-                                    <li><i class="fal fa-check"></i>{{ $product->stock_status ? 'In stock' : 'Out of
-                                        Stock' }}</li>
+                                    <li><i class="fal fa-check"></i>{{ ($product->stock > 0 && $product->stock_status) ? 'In stock' : 'Out of Stock' }}</li>
                                 </ul>
                                 <p class="description">
                                     {{ $product->short_description }}

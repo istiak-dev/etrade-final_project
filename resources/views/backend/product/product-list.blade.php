@@ -185,32 +185,41 @@
 
                         res.data.forEach((product, key) => {
 
-                            
+
                             // pre-defined route & path
-                            let dealRoute = `{{ route('admin.product.updateproduct', 'id_placeholder') }}`
-                            let dealStatRoute = dealRoute.replace('id_placeholder', product.id)
-                            let dealDateRoute = dealRoute.replace('id_placeholder',product.id)
-                            
-                            let editRoute = `{{ route('admin.product.add', 'id_placeholder') }}`
-                                editRoute = editRoute.replace('id_placeholder', product.id)
-                            let deleteRoute = `{{ route('admin.product.deleteproduct', 'id_placeholder') }}`
-                                deleteRoute = deleteRoute.replace('id_placeholder', product.id)
+                            let dealRoute =
+                                `{{ route('admin.product.updateproduct', 'id_placeholder') }}`
+                            let dealStatRoute = dealRoute.replace('id_placeholder',
+                                product.id)
+                            let dealDateRoute = dealRoute.replace('id_placeholder',
+                                product.id)
+
+                            let editRoute =
+                                `{{ route('admin.product.add', 'id_placeholder') }}`
+                            editRoute = editRoute.replace('id_placeholder', product.id)
+                            let deleteRoute =
+                                `{{ route('admin.product.deleteproduct', 'id_placeholder') }}`
+                            deleteRoute = deleteRoute.replace('id_placeholder', product
+                                .id)
 
                             // getImage logic
                             let imgSrc = `{{ getImage('img_path') }}`
                             let placeholder = `{{ getImage('') }}`
-                            let getImage = product.image ? imgSrc.replace('img_path', product.image) : placeholder;
+                            let getImage = product.image ? imgSrc.replace('img_path',
+                                product.image) : placeholder;
 
                             // deal status variables
                             const today = new Date().toISOString().split('T')[0];
                             let activeDeal = (product.deal_status == 1)
-                            const dealDate = product.deal_date ? new Date(product.deal_date).toISOString().split('T')[0] : null;
+                            const dealDate = product.deal_date ? new Date(product
+                                .deal_date).toISOString().split('T')[0] : null;
                             let validDate = (product.deal_date && (dealDate >= today))
-                            let dealBtnClr = (!validDate) ? 'btn-secondary' : (activeDeal ? 'btn-danger' : 'btn-info');
-                            
+                            let dealBtnClr = (!validDate) ? 'btn-secondary' : (
+                                activeDeal ? 'btn-danger' : 'btn-info');
+
                             // deal badge
                             let dealBadge = '<span class="text-muted">No Deal</span>';
-                            
+
                             if (product.deal_date) {
                                 if (product.deal_status == 0) {
                                     dealBadge =

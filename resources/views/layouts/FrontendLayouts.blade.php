@@ -610,7 +610,7 @@
                             <h3 class="item-title"><a href="single-product-3.html">{{ $cart->product->title }}</a></h3>
                             <div class="item-price"><span class="currency-symbol">BDT</span>{{ $cart->product->sale_price ??  $cart->product->price}}</div>
                             <div class="pro-qty item-quantity">
-                                <input type="number" class="quantity-input" value="{{ $cart->qty }}">
+                                <input type="number" class="quantity-input" value="{{ $cart->qty > $cart->product->stock ? $cart->product->stock : $cart->qty}}">
                             </div>
                         </div>
                     </li>
