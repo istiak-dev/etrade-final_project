@@ -149,7 +149,7 @@
                             </li>
                             <li class="shopping-cart">
                                 <a href="index-1.html#" class="cart-dropdown-btn">
-                                    <span class="cart-count">{{$carts ? $carts->count():0 }}</span>
+                                    <span class="cart-count">{{$carts ? $carts->count() : 0}}</span>
                                     <i class="flaticon-shopping-cart"></i>
                                 </a>
                             </li>
@@ -587,7 +587,6 @@
                         $subTotal = 0;
                     @endphp
                     @foreach ($carts as $cart)
-
 
                     <li class="cart-item">
                         <div class="item-img">
