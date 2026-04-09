@@ -30,6 +30,7 @@ Route::get('/my-account', [CustomerController::class,'profile'])->name('customer
 
 // Cart
 Route::get('/add-to-cart/{id}', [CartController::class, 'addToCart'])->name('cart.add');
+Route::get('/cart',[CartController::class,'cart'])->name('cart');
 
 
 Auth::routes();
