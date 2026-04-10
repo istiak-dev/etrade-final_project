@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/vendor/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/vendor/font-awesome.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/vendor/flaticon/flaticon.css') }}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/vendor/slick.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/vendor/slick-theme.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/vendor/jquery-ui.min.css') }}">
@@ -25,6 +26,17 @@
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/vendor/magnific-popup.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/vendor/base.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/style.min.css') }}">
+
+    <style>
+        /* boxicon */
+        .bx-package {
+            font-size: 60px !important;
+        }
+
+        .swal2-popup {
+            font-size: 1em !important;
+        }
+    </style>
 
 </head>
 
@@ -80,7 +92,7 @@
                             </div>
                             <ul class="mainmenu">
                                 <li class="menu-item-has-children">
-                                    <a href="{{route('home')}}">Home</a>
+                                    <a href="{{ route('home') }}">Home</a>
                                     <ul class="axil-submenu">
                                         <li><a href="index-1.html">Home - Electronics</a></li>
                                         <li><a href="index-2.html">Home - NFT</a></li>
@@ -92,10 +104,10 @@
                                     </ul>
                                 </li>
                                 <li class="menu-item-has-children">
-                                    <a href="{{route('shop')}}">Shop</a>
+                                    <a href="{{ route('shop') }}">Shop</a>
                                     <ul class="axil-submenu">
                                         @foreach ($categories as $category)
-                                        <li><a href="{{ $category->slug }}">{{ $category->title }}</a></li>
+                                            <li><a href="{{ $category->slug }}">{{ $category->title }}</a></li>
                                         @endforeach
                                     </ul>
                                 </li>
@@ -149,7 +161,7 @@
                             </li>
                             <li class="shopping-cart">
                                 <a href="index-1.html#" class="cart-dropdown-btn">
-                                    <span class="cart-count">{{ $carts ? $carts->count() : 0}}</span>
+                                    <span class="cart-count">{{ $carts ? $carts->count() : 0 }}</span>
                                     <i class="flaticon-shopping-cart"></i>
                                 </a>
                             </li>
@@ -324,7 +336,8 @@
                                 <span>Save $3 With App & New User only</span>
                                 <div class="download-btn-group">
                                     <div class="qr-code">
-                                        <img src="{{ asset('frontend/assets/images/others/qr.png') }}" alt="Axilthemes">
+                                        <img src="{{ asset('frontend/assets/images/others/qr.png') }}"
+                                            alt="Axilthemes">
                                     </div>
                                     <div class="app-link">
                                         <a href="index-1.html#">
@@ -555,8 +568,7 @@
         <button class="card-close sidebar-close"><i class="fas fa-times"></i></button>
         <div class="header-search-wrap">
             <div class="card-header">
-                <form action="{{route('shop')}}" method="GET">
-                    @csrf
+                <form action="{{ route('shop') }}" method="GET">
                     <div class="input-group">
                         <input type="search" class="form-control" name="prod-search" id="prod-search"
                             placeholder="Write Something....">
@@ -595,7 +607,7 @@
 
                     <li class="cart-item">
                         <div class="item-img">
-                            <a href="{{ route('shop.product', $cart->product->slug) }}"><img
+                            <a href="single-product.html"><img
                                     src="{{ getImage($cart->product->image) }}"
                                     alt="Commodo Blown Lamp"></a>
                             <button class="close-btn"><i class="fas fa-times"></i></button>
@@ -611,11 +623,10 @@
                                 </span>
                                 <span class="rating-number">(64)</span>
                             </div>
-                            <h3 class="item-title"><a href="{{ route('shop.product', $cart->product->slug)}}">{{ $cart->product->title }}</a></h3>
+                            <h3 class="item-title"><a href="single-product-3.html">{{ $cart->product->title }}</a></h3>
                             <div class="item-price"><span class="currency-symbol">BDT</span>{{ $cart->product->sale_price ??  $cart->product->price}}</div>
                             <div class="pro-qty item-quantity">
-                                <input type="number" class="quantity-input" max="{{ $cart->product->stock }}" min="1"
-                                 value="{{ $cart->qty > $cart->product->stock ? $cart->product->stock : $cart->qty}}">
+                                <input type="number" class="quantity-input" value="{{ $cart->qty }}">
                             </div>
                         </div>
                     </li>
@@ -628,11 +639,11 @@
             <div class="cart-footer">
                 <h3 class="cart-subtotal">
                     <span class="subtotal-title">Subtotal:</span>
-                    <span class="subtotal-amount">{{ number_format($subTotal,2) }} BDT</span>
+                    <span class="subtotal-amount">{{ number_format($subTotal, 2) }} BDT</span>
                 </h3>
                 <div class="group-btn">
-                    <a href="cart.html" class="axil-btn btn-bg-primary viewcart-btn">View Cart</a>
-                    <a href="checkout.html" class="axil-btn btn-bg-secondary checkout-btn">Checkout</a>
+                    <a href="{{ route('cart') }}" class="axil-btn btn-bg-primary viewcart-btn">View Cart</a>
+                    <a href="{{ route('checkout') }}" class="axil-btn btn-bg-secondary checkout-btn">Checkout</a>
                 </div>
             </div>
         </div>
@@ -676,15 +687,41 @@
     <script src="{{ asset('frontend/assets/js/vendor/isotope.pkgd.min.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/vendor/counterup.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/vendor/waypoints.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('frontend/assets/js/main.js') }}"></script>
+
     <script>
-        $(document).ready(function(){
-            let lastValue = ''; 
+        // sweet alert plugin
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+    </script>
+
+    @if (session()->has('msg'))
+        <script>
+            Toast.fire({
+                icon: `{{ session('msg')['type'] ?? 'success' }}`,
+                title: `{{ session('msg')['content'] ?? 'Success' }}`
+            });
+        </script>
+    @endif
+
+    <script>
+        $(document).ready(function() {
+            let lastValue = '';
             let lastValidHTML = ''; // Temporary Memory
-            
+
             // Searching
             const input = $('#header-search-modal #prod-search')
-            input.keyup(function(){
+            input.keyup(function() {
                 // input value
                 const value = $(this).val();
 
@@ -694,7 +731,7 @@
                         $('.psearch-results').html(lastValidHTML);
                     }
                     lastValue = ''; // Reset tracker so they can type the same thing again
-                    return; 
+                    return;
                 }
 
                 // 2. PREVENT GHOST EVENTS: If value hasn't changed, do nothing
@@ -703,27 +740,30 @@
 
                 // Ajax Request
                 $.ajax({
-                    url:`{{ route('shop.search') }}`,
-                    method:'GET',
-                    data:{
-                        search:value
+                    url: `{{ route('shop.search') }}`,
+                    method: 'GET',
+                    data: {
+                        search: value
                     },
-                    success : function(res){
+                    success: function(res) {
                         $('.search-result-header span').html(res.count)
 
                         let HTMLProductArray = [];
 
                         res.data.forEach(product => {
-                        
-                        // pre-defined route
-                        let productURL = `{{ route('shop.product', 'slug_placeholder') }}`
-                        productURL = productURL.replace('slug_placeholder', product.slug)
-                        // getImage logic
-                        let imgSrc = `{{getImage('img_path')}}`
-                        let placeholder = `{{getImage('')}}`
-                        let getImage = product.image ? imgSrc.replace('img_path', product.image) : placeholder;
-                            
-                        const productHTML = `<div class="axil-product-list">
+
+                            // pre-defined route
+                            let productURL =
+                                `{{ route('shop.product', 'slug_placeholder') }}`
+                            productURL = productURL.replace('slug_placeholder', product
+                                .slug)
+                            // getImage logic
+                            let imgSrc = `{{ getImage('img_path') }}`
+                            let placeholder = `{{ getImage('') }}`
+                            let getImage = product.image ? imgSrc.replace('img_path',
+                                product.image) : placeholder;
+
+                            const productHTML = `<div class="axil-product-list">
                         <div class="thumbnail">
                             <a href="single-product.html">
                                 <img width="120" src="${getImage}"
@@ -752,14 +792,14 @@
                             </div>
                         </div>
                         </div>`
-                        HTMLProductArray.push(productHTML)
-                    })
+                            HTMLProductArray.push(productHTML)
+                        })
 
-                    $('.psearch-results').html(HTMLProductArray)
-                    lastValidHTML = HTMLProductArray;
+                        $('.psearch-results').html(HTMLProductArray)
+                        lastValidHTML = HTMLProductArray;
 
                     },
-                    error : function(err){
+                    error: function(err) {
                         console.error(err)
                     }
                 })
