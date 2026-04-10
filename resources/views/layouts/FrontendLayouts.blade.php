@@ -158,10 +158,12 @@
                                     <i class="flaticon-person"></i>
                                 </a>
                                 <div class="my-account-dropdown">
+                                    @auth
+                                        
                                     <span class="title">QUICKLINKS</span>
                                     <ul>
                                         <li>
-                                            <a href="my-account.html">My Account</a>
+                                            <a href="{{ route('customer.profile') }}">My Account</a>
                                         </li>
                                         <li>
                                             <a href="index-1.html#">Initiate return</a>
@@ -173,10 +175,11 @@
                                             <a href="index-1.html#">Language</a>
                                         </li>
                                     </ul>
+                                    @endauth
                                     <div class="login-btn">
-                                        <a href="sign-in.html" class="axil-btn btn-bg-primary">Login</a>
+                                        <a href="{{ route('customer.sign-in') }}" class="axil-btn btn-bg-primary">Login</a>
                                     </div>
-                                    <div class="reg-footer text-center">No account yet? <a href="sign-up.html"
+                                    <div class="reg-footer text-center">No account yet? <a href="{{ route('customer.sign-up') }}"
                                             class="btn-link">REGISTER HERE.</a></div>
                                 </div>
                             </li>
@@ -287,11 +290,11 @@
                             <h5 class="widget-title">Account</h5>
                             <div class="inner">
                                 <ul>
-                                    <li><a href="my-account.html">My Account</a></li>
-                                    <li><a href="sign-up.html">Login / Register</a></li>
+                                    <li><a href="{{ route('customer.profile') }}">My Account</a></li>
+                                    <li><a href="{{ route('customer.sign-up') }}">Login / Register</a></li>
                                     <li><a href="cart.html">Cart</a></li>
                                     <li><a href="wishlist.html">Wishlist</a></li>
-                                    <li><a href="shop.html">Shop</a></li>
+                                    <li><a href="{{ route('shop') }}">Shop</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -307,7 +310,7 @@
                                     <li><a href="terms-of-service.html">Terms Of Use</a></li>
                                     <li><a href="index-1.html#">FAQ</a></li>
                                     <li><a href="contact.html">Contact</a></li>
-                                    <li><a href="contact.html">Contact</a></li>
+                                   
                                 </ul>
                             </div>
                         </div>
@@ -553,6 +556,7 @@
         <div class="header-search-wrap">
             <div class="card-header">
                 <form action="{{route('shop')}}" method="GET">
+                    @csrf
                     <div class="input-group">
                         <input type="search" class="form-control" name="prod-search" id="prod-search"
                             placeholder="Write Something....">
@@ -562,7 +566,7 @@
             </div>
             <div class="card-body">
                 <div class="search-result-header">
-                    <h6 class="title"><span>0</span> Result Found</h6>
+                    <h6 class="title"><span>{{ 0 }}</span> Result Found</h6>
                     <a href="shop.html" class="view-all">View All</a>
                 </div>
                 <div class="psearch-results">
@@ -591,7 +595,7 @@
 
                     <li class="cart-item">
                         <div class="item-img">
-                            <a href="single-product.html"><img
+                            <a href="{{ route('shop.product', $cart->product->slug) }}"><img
                                     src="{{ getImage($cart->product->image) }}"
                                     alt="Commodo Blown Lamp"></a>
                             <button class="close-btn"><i class="fas fa-times"></i></button>
@@ -607,10 +611,11 @@
                                 </span>
                                 <span class="rating-number">(64)</span>
                             </div>
-                            <h3 class="item-title"><a href="single-product-3.html">{{ $cart->product->title }}</a></h3>
+                            <h3 class="item-title"><a href="{{ route('shop.product', $cart->product->slug)}}">{{ $cart->product->title }}</a></h3>
                             <div class="item-price"><span class="currency-symbol">BDT</span>{{ $cart->product->sale_price ??  $cart->product->price}}</div>
                             <div class="pro-qty item-quantity">
-                                <input type="number" class="quantity-input" value="{{ $cart->qty > $cart->product->stock ? $cart->product->stock : $cart->qty}}">
+                                <input type="number" class="quantity-input" max="{{ $cart->product->stock }}" min="1"
+                                 value="{{ $cart->qty > $cart->product->stock ? $cart->product->stock : $cart->qty}}">
                             </div>
                         </div>
                     </li>
@@ -645,7 +650,7 @@
                         <h3 class="title">Best Sales Offer<br> Grab Yours</h3>
                     </div>
                     <div class="poster-countdown countdown"></div>
-                    <a href="shop.html" class="axil-btn btn-bg-primary">Shop Now <i
+                    <a href="{{ route('shop') }}" class="axil-btn btn-bg-primary">Shop Now <i
                             class="fal fa-long-arrow-right"></i></a>
                 </div>
             </div>

@@ -13,7 +13,7 @@
             <div class="col-sm-8">
                 <div class="singin-header-btn">
                     <p>Not a member?</p>
-                    <a href="sign-up.html" class="axil-btn btn-bg-secondary sign-up-btn">Sign Up Now</a>
+                    <a href="{{ route('customer.sign-up') }}" class="axil-btn btn-bg-secondary sign-up-btn">Sign Up Now</a>
                 </div>
             </div>
         </div>
