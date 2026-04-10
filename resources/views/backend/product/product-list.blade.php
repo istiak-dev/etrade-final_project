@@ -2,6 +2,14 @@
 @section('backend_cnt')
     <div class="card border border-light border-2 rounded-3 mb-4">
         <h4 class="card-header">Product List</h4>
+        
+        <div class="row px-3 pt-2 pb-4">
+            <div class="d-flex gap-2 col-lg-4 align-items-center search-box">
+                <label for="">Search:</label>
+                <input type="search" class="form-control search_product">
+            </div>
+        </div>
+
         <div class="table-responsive text-nowrap">
 
             <table class="table table-responsive table-striped pb-5">
@@ -169,7 +177,7 @@
     <script>
         $(function() {
 
-            $('input.backend_search').keyup(function() {
+            $('input.search_product').keyup(function() {
 
                 const value = $(this).val()
 

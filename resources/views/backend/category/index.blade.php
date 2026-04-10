@@ -5,6 +5,12 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="card">
+                        <div class="row px-3 py-4">
+                            <div class="d-flex gap-2 col-lg-5 align-items-center search-box">
+                                <label for="">Search:</label>
+                                <input type="search" class="form-control search_category">
+                            </div>
+                        </div>
                         <table class="table table-responsive table-striped">
                             <thead>
                                 <tr>
@@ -13,7 +19,7 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="category-table" data-url="{{ route('admin.category.search') }}">
+                            <tbody id="category-table">
                                 @foreach ($categories as $key => $category)
                                     <tr>
                                         <td>{{ ++$key }}</td>
@@ -75,7 +81,7 @@
 @push('js')
     <script>
         $(function() {
-            $('input.backend_search').keyup(function() {
+            $('input.search_category').keyup(function() {
                 let value = $(this).val()
                 $.ajax({
                     url: `{{ route('admin.category.search') }}`,
@@ -88,14 +94,18 @@
                         let categoryArray = []
 
                         res.data.forEach((category, key) => {
-                            let editRoute = `{{ route('admin.category.show', 'id_placeholder') }}`
-                                editRoute = editRoute.replace('id_placeholder', category.id)
-                            let deleteRoute = `{{ route('admin.category.delete', 'id_placeholder') }}`
-                                deleteRoute = deleteRoute.replace('id_placeholder', category.id)
-                                
-                            let imgSrc = `{{getImage('img_path')}}`
-                            let placeholder = `{{getImage('')}}`
-                            let getImage = category.icon ? imgSrc.replace('img_path', category.icon) : placeholder;
+                            let editRoute =
+                                `{{ route('admin.category.show', 'id_placeholder') }}`
+                            editRoute = editRoute.replace('id_placeholder', category.id)
+                            let deleteRoute =
+                                `{{ route('admin.category.delete', 'id_placeholder') }}`
+                            deleteRoute = deleteRoute.replace('id_placeholder', category
+                                .id)
+
+                            let imgSrc = `{{ getImage('img_path') }}`
+                            let placeholder = `{{ getImage('') }}`
+                            let getImage = category.icon ? imgSrc.replace('img_path',
+                                category.icon) : placeholder;
 
                             categoryHtml = `<tr>
                                     <td>${ ++key }</td>
@@ -108,7 +118,7 @@
                                     </td>
                                 </tr>`
 
-                                categoryArray.push(categoryHtml);
+                            categoryArray.push(categoryHtml);
                         });
                         $('#category-table').html(categoryArray)
                     },
