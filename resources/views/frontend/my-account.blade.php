@@ -9,7 +9,7 @@
                 <div class="col-lg-6 col-md-8">
                     <div class="inner">
                         <ul class="axil-breadcrumb">
-                            <li class="axil-breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="axil-breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
                             <li class="separator"></li>
                             <li class="axil-breadcrumb-item active" aria-current="page">My Account</li>
                         </ul>
@@ -19,7 +19,7 @@
                 <div class="col-lg-6 col-md-4">
                     <div class="inner">
                         <div class="bradcrumb-thumb">
-                            <img src="assets/images/product/product-45.png" alt="Image">
+                            <img src="{{ asset('frontend/assets/images/product/product-45.png') }}" alt="Image">
                         </div>
                     </div>
                 </div>
@@ -51,9 +51,9 @@
                             <nav class="axil-dashboard-nav">
                                 <div class="nav nav-tabs" role="tablist">
                                     <a class="nav-item nav-link active" data-bs-toggle="tab"
-                                        href="my-account.html#nav-dashboard" role="tab" aria-selected="true"><i
+                                        href="{{ route('customer.profile') }}" role="tab" aria-selected="true"><i
                                             class="fas fa-th-large"></i>Dashboard</a>
-                                    <a class="nav-item nav-link" data-bs-toggle="tab" href="my-account.html#nav-orders"
+                                    <a class="nav-item nav-link" data-bs-toggle="tab" href="{{ route }}"
                                         role="tab" aria-selected="false"><i
                                             class="fas fa-shopping-basket"></i>Orders</a>
                                     <a class="nav-item nav-link" data-bs-toggle="tab"
@@ -63,7 +63,7 @@
                                         role="tab" aria-selected="false"><i class="fas fa-home"></i>Addresses</a>
                                     <a class="nav-item nav-link" data-bs-toggle="tab" href="my-account.html#nav-account"
                                         role="tab" aria-selected="false"><i class="fas fa-user"></i>Account Details</a>
-                                    <a class="nav-item nav-link" href="sign-in.html"><i
+                                    <a class="nav-item nav-link" href="{{ route('home') }}"><i
                                             class="fal fa-sign-out"></i>Logout</a>
                                 </div>
                             </nav>

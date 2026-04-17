@@ -170,7 +170,7 @@
                                     <i class="flaticon-person"></i>
                                 </a>
                                 <div class="my-account-dropdown">
-                                    @auth
+                                    @auth('customer')
                                         
                                     <span class="title">QUICKLINKS</span>
                                     <ul>

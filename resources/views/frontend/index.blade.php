@@ -15,7 +15,7 @@
                                     <h1 class="title"> {{ $product->title }} </h1>
                                     <div class="slide-action">
                                         <div class="shop-btn">
-                                            <a href="shop.html" class="axil-btn btn-bg-white"><i
+                                            <a href="{{ route('shop.product', $product->slug) }}" class="axil-btn btn-bg-white"><i
                                                     class="fal fa-shopping-cart"></i>Shop Now</a>
                                         </div>
                                         <div class="item-rating">
@@ -182,7 +182,7 @@
                                             @endif
                                         </a>
                                         <div class="label-block label-right">
-                                            <div class="product-badget">20% Off</div>
+                                            <div class="product-badget">{{ getDiscount($product) }} Off</div>
                                         </div>
                                         <div class="product-hover-action">
                                             <ul class="cart-action">

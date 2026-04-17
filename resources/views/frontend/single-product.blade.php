@@ -89,6 +89,7 @@
                                 </p>
                                 <!-- Start Product Action Wrapper  -->
                                 <form class="product-action-wrapper d-flex-center" action="{{ route('cart.add', $product->id) }}" method="GET">
+                                    @csrf
                                     <!-- Start Quentity Action  -->
                                     <div class="pro-qty"><input type="text" value="1" name="qty"></div>
                                     <!-- End Quentity Action  -->

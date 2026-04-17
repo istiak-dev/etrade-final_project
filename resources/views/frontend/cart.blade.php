@@ -41,7 +41,7 @@
                                                 href="single-product.html">{{ $cart->product->title }}</a></td>
                                         <td class="product-price" data-title="Price"><span
                                                 class="currency-symbol">BDT</span>
-                                            {{ number_format($cart->product->sale_price ?? cart->product->price, 2) }} </td>
+                                            {{ number_format($cart->product->sale_price ?? $cart->product->price, 2) }} </td>
                                         <td class="product-quantity" data-title="Qty">
                                             <input type="hidden" name="product_ids[]" value="{{ $cart->product->id }}">
                                             <div class="pro-qty">
@@ -51,11 +51,11 @@
                                         </td>
                                         <td class="product-subtotal" data-title="Subtotal"><span
                                                 class="currency-symbol">BDT</span>
-                                            {{ number_format($cart->qty * ($cart->product->sale_price ?? cart->product->price), 2) }}
+                                            {{ number_format($cart->qty * ($cart->product->sale_price ?? $cart->product->price), 2) }}
                                         </td>
                                     </tr>
                                     @php
-                                        $subTotal += $cart->qty * ($cart->product->sale_price ?? cart->product->price);
+                                        $subTotal += $cart->qty * ($cart->product->sale_price ?? $cart->product->price);
                                     @endphp
                                     {{-- @dd($cart->product) --}}
                                 @empty
