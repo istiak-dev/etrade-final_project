@@ -36,11 +36,11 @@
                     <div class="media">
                         <div class="thumbnail">
                             <img width="60"
-                                src="https://api.dicebear.com/9.x/initials/svg?seed={{ auth('customer')->user()->name }}"
+                                src="https://api.dicebear.com/9.x/initials/svg?seed={{ auth('customer')?->user()?->name }}"
                                 alt="Hello Annie">
                         </div>
                         <div class="media-body">
-                            <h5 class="title mb-0">Hello {{ auth('customer')->user()->name }}</h5>
+                            <h5 class="title mb-0">Hello {{ auth('customer')?->user()?->name }}</h5>
                             <span class="joining-date">eTrade Member Since Sep 2020</span>
                         </div>
                     </div>
@@ -53,7 +53,7 @@
                                     <a class="nav-item nav-link active" data-bs-toggle="tab"
                                         href="{{ route('customer.profile') }}" role="tab" aria-selected="true"><i
                                             class="fas fa-th-large"></i>Dashboard</a>
-                                    <a class="nav-item nav-link" data-bs-toggle="tab" href="{{ route }}"
+                                    <a class="nav-item nav-link" data-bs-toggle="tab" href="#"
                                         role="tab" aria-selected="false"><i
                                             class="fas fa-shopping-basket"></i>Orders</a>
                                     <a class="nav-item nav-link" data-bs-toggle="tab"
@@ -73,8 +73,8 @@
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="nav-dashboard" role="tabpanel">
                                 <div class="axil-dashboard-overview">
-                                    <div class="welcome-text">Hello {{ auth('customer')->user()->name }} (not <span>{{
-                                            auth('customer')->user()->name }}?</span> <a onclick="event.preventDefault();
+                                    <div class="welcome-text">Hello {{ auth('customer')?->user()?->name }} (not <span>{{
+                                            auth('customer')?->user()?->name }}?</span> <a onclick="event.preventDefault();
                                                      document.querySelector('#logout-form').submit();"
                                             href="{{ route('customer.sign-out') }}">Log Out</a>
                                         <form id="logout-form" action="{{ route('customer.sign-out') }}" method="POST">

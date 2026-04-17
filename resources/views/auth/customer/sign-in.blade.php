@@ -45,6 +45,9 @@
                             <button type="submit" class="axil-btn btn-bg-primary submit-btn">Sign In</button>
                             <a href="forgot-password.html" class="forgot-btn">Forget password?</a>
                         </div>
+                        <div>
+                            <a title="Continue with Google" href="{{ route('customer.google.signin') }}"><img width="50" src="https://s3-alpha.figma.com/hub/file/6055265191/97a0b7ac-13bb-4f59-986e-8c3e960435fd-cover.png" alt=""></a>
+                        </div>
                     </form>
                 </div>
             </div>

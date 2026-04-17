@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Laravel\Socialite\Socialite;
 
 
 class CustomerController extends Controller
@@ -73,7 +74,31 @@ class CustomerController extends Controller
     }
 
 
-    function profile(){
+    function profile()
+    {
         return view('frontend.my-account');
+    }
+
+
+    function googleLogin()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+    function googleLoginCallback()
+    {
+        $user = Socialite::driver('google')->stateless()->user();
+
+        $customer = Customer::updateOrCreate([
+            'email' => $user->email,
+        ], [
+            'name' => $user->name,
+            'email' => $user->email,
+            'password' => Hash::make(uniqid()),
+        ]);
+
+        Auth::guard('customer')->login($customer);
+
+        return to_route('customer.profile');
+
     }
 }
