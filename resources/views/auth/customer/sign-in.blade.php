@@ -33,6 +33,11 @@
                     <p class="b2 mb--55">Enter your detail below</p>
                     <form action="{{ route('customer.sign-in') }}" method="POST" class="singin-form">
                         @csrf
+                @error('email')
+                <div class="mb-5">
+                    <span class="text-danger"> {{$message}} </span>
+                </div>
+                @enderror
                         <div class="form-group">
                             <label>Email</label>
                             <input type="email" class="form-control" name="email">
