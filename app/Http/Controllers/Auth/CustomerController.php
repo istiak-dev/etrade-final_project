@@ -101,4 +101,26 @@ class CustomerController extends Controller
         return to_route('customer.profile');
 
     }
+     function facebookLogin()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    function facebookLoginCallback()
+    {
+        $user = Socialite::driver('facebook')->stateless()->user();
+
+        $customer = Customer::updateOrCreate([
+            'email' => $user->email,
+        ], [
+            'name' => $user->name,
+            'email' => $user->email,
+            'password' => Hash::make(uniqid()),
+        ]);
+
+        Auth::guard('customer')->login($customer);
+
+        return to_route('customer.profile');
+
+    }
 }

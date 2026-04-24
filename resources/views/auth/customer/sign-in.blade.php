@@ -45,8 +45,13 @@
                             <button type="submit" class="axil-btn btn-bg-primary submit-btn">Sign In</button>
                             <a href="forgot-password.html" class="forgot-btn">Forget password?</a>
                         </div>
-                        <div>
-                            <a title="Continue with Google" href="{{ route('customer.google.signin') }}"><img width="50" src="https://s3-alpha.figma.com/hub/file/6055265191/97a0b7ac-13bb-4f59-986e-8c3e960435fd-cover.png" alt=""></a>
+                        <div class="social-login d-flex justify-content-between align-items-center">
+                            <div>
+                                <a class="badge-btn bg-light text-dark py-3" title="Continue with Google" href="{{ route('customer.google.signin') }}">Continue with<img width="50" src="{{ asset('frontend/assets/images/google-logo.webp') }}" alt=""></a>
+                            </div>
+                            <div>
+                                <a class="badge-btn bg-light text-dark py-3 " title="Continue with Facebook" href="{{ route('customer.facebook.signin') }}">Continue with  <img width="30" src="{{ asset('frontend/assets/images/Facebook-logo-blue-large-size-WebP.webp') }}" alt=""></a>
+                            </div>
                         </div>
                     </form>
                 </div>

@@ -26,9 +26,13 @@ Route::post('/sign-in', [CustomerController::class,'login'])->name('customer.sig
 Route::get('/sign-up', [CustomerController::class,'showRegisterForm'])->name('customer.show-sign-up');
 Route::post('/sign-up', [CustomerController::class,'register'])->name('customer.sign-up');
 Route::post('/sign-out', [CustomerController::class,'logout'])->name('customer.sign-out');
-
+// google login
 Route::get('/google-login', [CustomerController::class,'googleLogin'])->name('customer.google.signin');
 Route::get('/google-callback', [CustomerController::class,'googleLoginCallback'])->name('customer.google.callback');
+// facebook login
+Route::get('/facebook-login', [CustomerController::class,'facebookLogin'])->name('customer.facebook.signin');
+Route::get('/facebook-callback', [CustomerController::class,'facebookLoginCallback'])->name('customer.facebook.callback');
+// customer profile
 Route::get('/my-account', [CustomerController::class,'profile'])->name('customer.profile')->middleware('isCustomer');
 
 
