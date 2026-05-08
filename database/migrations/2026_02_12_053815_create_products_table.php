@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('short_description')->nullable();
-            $table->longText('description')->nullable();           
+            $table->longText('description')->nullable();
             $table->string('brand_name')->nullable();
             $table->string('model')->nullable()->unique();
             $table->string('sku')->nullable()->unique();
@@ -26,14 +26,15 @@ return new class extends Migration
             $table->boolean('stock_status')->default(true);
             $table->integer('price');
             $table->integer('sale_price')->nullable();
-            
+
             $table->dateTime('deal_date')->nullable();
             $table->boolean('deal_status')->default(false);
-            
+
             $table->string('image')->nullable();
             $table->json('gall_img')->nullable();
             $table->string('published_status')->nullable();
-            $table->date('published_date')->nullable();            
+            $table->date('published_date')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

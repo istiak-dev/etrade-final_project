@@ -54,104 +54,44 @@
                     <div class="axil-checkout-billing">
                         <h4 class="title mb--40">Billing details</h4>
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-12">
                                 <div class="form-group">
-                                    <label>First Name <span>*</span></label>
-                                    <input type="text" id="first-name" placeholder="Adam">
+                                    <label>Customer Name <span>*</span></label>
+                                    <input type="text" id="name" placeholder="Adam"
+                                        value="{{ auth('customer')->user()->name }}">
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label>Last Name <span>*</span></label>
-                                    <input type="text" id="last-name" placeholder="John">
-                                </div>
-                            </div>
+
                         </div>
-                        <div class="form-group">
-                            <label>Company Name</label>
-                            <input type="text" id="company-name">
-                        </div>
+
                         <div class="form-group">
                             <label>Country/ Region <span>*</span></label>
-                            <select id="Region">
-                                <option value="3">Australia</option>
-                                <option value="4">England</option>
-                                <option value="6">New Zealand</option>
-                                <option value="5">Switzerland</option>
-                                <option value="1">United Kindom (UK)</option>
-                                <option value="2">United States (USA)</option>
+                            <select id="country">
+                                <option value="bangladesh">Bangladesh</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Street Address <span>*</span></label>
-                            <input type="text" id="address1" class="mb--15"
+                            <input type="text" value="{{ auth('customer')->user()->addr }}" id="address1" class="mb--15"
                                 placeholder="House number and street name">
-                            <input type="text" id="address2" placeholder="Apartment, suite, unit, etc. (optonal)">
+                            <input type="text" value="{{ auth('customer')->user()->addr2 }}" id="address2"
+                                placeholder="Apartment, suite, unit, etc. (optonal)">
                         </div>
                         <div class="form-group">
                             <label>Town/ City <span>*</span></label>
-                            <input type="text" id="town">
+                            <input type="text" id="city">
                         </div>
-                        <div class="form-group">
-                            <label>Country</label>
-                            <input type="text" id="country">
-                        </div>
+
                         <div class="form-group">
                             <label>Phone <span>*</span></label>
-                            <input type="tel" id="phone">
+                            <input type="tel" id="phone" value="{{ auth('customer')->user()->phone }}">
                         </div>
                         <div class="form-group">
                             <label>Email Address <span>*</span></label>
-                            <input type="email" id="email">
+                            <input type="email" id="email" value="{{ auth('customer')->user()->email }}">
                         </div>
-                        <div class="form-group input-group">
-                            <input type="checkbox" id="checkbox1" name="account-create">
-                            <label for="checkbox1">Create an account</label>
-                        </div>
-                        <div class="form-group different-shippng">
-                            <div class="toggle-bar">
-                                <a href="javascript:void(0)" class="toggle-btn">
-                                    <input type="checkbox" id="checkbox2" name="diffrent-ship">
-                                    <label for="checkbox2">Ship to a different address?</label>
-                                </a>
-                            </div>
-                            <div class="toggle-open">
-                                <div class="form-group">
-                                    <label>Country/ Region <span>*</span></label>
-                                    <select id="Region">
-                                        <option value="3">Australia</option>
-                                        <option value="4">England</option>
-                                        <option value="6">New Zealand</option>
-                                        <option value="5">Switzerland</option>
-                                        <option value="1">United Kindom (UK)</option>
-                                        <option value="2">United States (USA)</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Street Address <span>*</span></label>
-                                    <input type="text" id="address1" class="mb--15"
-                                        placeholder="House number and street name">
-                                    <input type="text" id="address2"
-                                        placeholder="Apartment, suite, unit, etc. (optonal)">
-                                </div>
-                                <div class="form-group">
-                                    <label>Town/ City <span>*</span></label>
-                                    <input type="text" id="town">
-                                </div>
-                                <div class="form-group">
-                                    <label>Country</label>
-                                    <input type="text" id="country">
-                                </div>
-                                <div class="form-group">
-                                    <label>Phone <span>*</span></label>
-                                    <input type="tel" id="phone">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Other Notes (optional)</label>
-                            <textarea id="notes" rows="2" placeholder="Notes about your order, e.g. speacial notes for delivery."></textarea>
-                        </div>
+
+
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -166,41 +106,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                    $deliveryFee = 100;
+                                    $totalPrice = $deliveryFee + 0;
+                                    @endphp
+                                    @foreach($carts as $cart)
+                                    @php
+                                    $price = $cart->product->sale_price ?? $cart->product->price;
+                                    $totalPrice += $price;
+                                    @endphp
                                     <tr class="order-product">
-                                        <td>Commodo Blown Lamp <span class="quantity">x1</span></td>
-                                        <td>$117.00</td>
-                                    </tr>
-                                    <tr class="order-product">
-                                        <td>Commodo Blown Lamp <span class="quantity">x1</span></td>
-                                        <td>$198.00</td>
-                                    </tr>
-                                    <tr class="order-subtotal">
-                                        <td>Subtotal</td>
-                                        <td>$117.00</td>
-                                    </tr>
-                                    <tr class="order-shipping">
-                                        <td colspan="2">
-                                            <div class="shipping-amount">
-                                                <span class="title">Shipping Method</span>
-                                                <span class="amount">$35.00</span>
-                                            </div>
-                                            <div class="input-group">
-                                                <input type="radio" id="radio1" name="shipping" checked>
-                                                <label for="radio1">Free Shippping</label>
-                                            </div>
-                                            <div class="input-group">
-                                                <input type="radio" id="radio2" name="shipping">
-                                                <label for="radio2">Local</label>
-                                            </div>
-                                            <div class="input-group">
-                                                <input type="radio" id="radio3" name="shipping">
-                                                <label for="radio3">Flat rate</label>
-                                            </div>
+                                        <td>{{ $cart->product->title }} <span class="quantity">x{{ $cart->qty }}</span>
                                         </td>
+                                        <td>{{ number_format($price) }}</td>
                                     </tr>
+                                    @endforeach
+
+
                                     <tr class="order-total">
                                         <td>Total</td>
-                                        <td class="order-total-amount">$323.00</td>
+                                        <td class="order-total-amount">{{ number_format($totalPrice) }} BDT</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -226,14 +151,20 @@
                                 <div class="input-group justify-content-between align-items-center">
                                     <input type="radio" id="radio6" name="payment" checked>
                                     <label for="radio6">Paypal</label>
-                                    <img src="{{asset('frontend/assets/images/others/payment.png')}}" alt="Paypal payment">
+                                    <img src="{{asset('frontend/assets/images/others/payment.png')}}"
+                                        alt="Paypal payment">
                                 </div>
                                 <p>Pay via PayPal; you can pay with your credit card if you don’t have a PayPal
                                     account.</p>
                             </div>
                         </div>
-                        <button type="submit" class="axil-btn btn-bg-primary checkout-btn">Process to
-                            Checkout</button>
+                        <button class="btn btn-primary btn-lg btn-block" id="sslczPayBtn"
+                            token="if you have any token validation"
+                            postdata="your javascript arrays or objects which requires in backend"
+                            order="If you already have the transaction generated for current order"
+                            endpoint="{{ url('/pay-via-ajax') }}"> Pay
+                            Now
+                        </button>
                     </div>
                 </div>
             </div>
@@ -241,5 +172,32 @@
     </div>
 </div>
 <!-- End Checkout Area  -->
+@push('frontend_js')
+<script>
+    $('#sslczPayBtn').click(function(){
+        var obj = {};
+        obj.cus_name = $('#name').val();
+        obj.cus_phone = $('#phone').val();
+        obj.cus_email = $('#email').val();
+        obj.cus_country = $('#country').val();
+        obj.cus_city = $('#city').val();
+        obj.cus_addr1 = $('#address1').val();
+        obj.cus_addr2 = $('#address2').val();
+        obj.amount = `{{ $totalPrice }}`;
+        
+        $('#sslczPayBtn').prop('postdata', obj);
+    })
+</script>
+<script>
+    (function (window, document) {
+        var loader = function () {
+            var script = document.createElement("script"), tag = document.getElementsByTagName("script")[0];
+            script.src = "https://sandbox.sslcommerz.com/embed.min.js?" + Math.random().toString(36).substring(7);
+            tag.parentNode.insertBefore(script, tag);
+        };
 
+        window.addEventListener ? window.addEventListener("load", loader, false) : window.attachEvent("onload", loader);
+    })(window, document);
+</script>
+@endpush
 @endsection
