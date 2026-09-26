@@ -17,7 +17,7 @@ class HomeController extends Controller
         // Get Active Products
         $products = Product::where('stock_status', true)->select('id', 'title', 'image', 'slug', 'price', 'sale_price', 'gall_img')->latest()->get();
 
-        $ddProducts = Product::whereDate('deal_date', date('Y-m-d'))->where('deal_status', true)->select('id', 'title', 'image', 'price', 'sale_price', 'deal_date', 'deal_status')->latest()->get();
+        $ddProducts = Product::whereDate('deal_date', date('Y-m-d'))->where('deal_status', true)->select('id', 'title', 'slug', 'image', 'price', 'sale_price', 'deal_date', 'deal_status')->latest()->get();
 
         return view('frontend.index', compact('categories', 'products', 'ddProducts'));
     }

@@ -15,8 +15,9 @@
                                     <h1 class="title"> {{ $product->title }} </h1>
                                     <div class="slide-action">
                                         <div class="shop-btn">
-                                            <a href="{{ route('shop.product', $product->slug) }}" class="axil-btn btn-bg-white"><i
-                                                    class="fal fa-shopping-cart"></i>Shop Now</a>
+                                            <a href="{{ route('shop.product', $product->slug) }}"
+                                                class="axil-btn btn-bg-white"><i class="fal fa-shopping-cart"></i>Shop
+                                                Now</a>
                                         </div>
                                         <div class="item-rating">
                                             <div class="thumb">
@@ -130,7 +131,8 @@
 
                                         <div class="poster-countdown countdown mb--40"></div>
 
-                                        <a href="index-1.html#" class="axil-btn btn-bg-primary">Check it Out!</a>
+                                        <a href="{{ route('shop.product', $ddProduct->slug) }}"
+                                            class="axil-btn btn-bg-primary">Check it Out!</a>
                                     </div>
                                 </div>
                                 <div class="col-xl-7 col-lg-6">
@@ -172,8 +174,9 @@
                                 <div class="axil-product product-style-one">
                                     <div class="thumbnail">
                                         <a href="{{ route('shop.product', $product->slug) }}">
-                                            <img data-sal="zoom-out" data-sal-delay="200" data-sal-duration="800"
-                                                loading="lazy" class="main-img" src="{{ getImage($product->image) }}"
+                                            <img class="img-fluid w-100" style="aspect-ratio:1/1.1" data-sal="zoom-out"
+                                                data-sal-delay="200" data-sal-duration="800" loading="lazy"
+                                                class="main-img" src="{{ getImage($product->image) }}"
                                                 alt="{{ $product->title }}">
                                             @if (count(json_decode($product->gall_img ?? '')) > 0)
                                                 <img class="hover-img"
@@ -565,7 +568,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-12 text-center mt--20 mt_sm--0">
-                    <a href="shop.html" class="axil-btn btn-bg-lighter btn-load-more">View All Products</a>
+                    <a href="{{ route('shop') }}" class="axil-btn btn-bg-lighter btn-load-more">View All Products</a>
                 </div>
             </div>
 
